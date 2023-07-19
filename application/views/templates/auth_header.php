@@ -19,7 +19,7 @@
         <link rel="stylesheet" href="<?= base_url('assets/template/') ?>dist/css/style.css">
     </head>
 
-    <body class="hold-transition login-page background">
+    <body class="hold-transition login-page">
         <div class="login-box">
             <!-- /.login-logo -->
             <div class="card card-outline card-info">

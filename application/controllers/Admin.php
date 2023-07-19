@@ -401,7 +401,7 @@ class Admin extends CI_Controller
             $namaweb = $this->input->post('namaweb');
             $upload_favicon = $_FILES['favicon']['name'];
             if ($upload_favicon) {
-                $config['allowed_types'] = 'gif|jpg|png';
+                $config['allowed_types'] = 'gif|jpg|png|jpeg';
                 $config['max_size']      = '2048';
                 $config['upload_path']   = './assets/template/dist/img/';
                 $this->load->library('upload', $config);
@@ -931,6 +931,18 @@ class Admin extends CI_Controller
         } else {
             $this->load->view('admin/periodesuratkeluar', $data);
         }
+    }
+    public function pupuk()
+    {
+        $data['pengaturan'] = $this->db->get('tbl_pengaturan_umum')->result_array();
+        $data['user'] = $this->db->get_where('users', ['email' => $this->session->userdata('email')])->row_array();
+        $data['title'] = 'Pupuk';
+        $data['pupuk'] = $this->db->get('tbl_pupuk')->result_array();
+        $this->load->view('templates/header', $data);
+        $this->load->view('templates/navbar', $data);
+        $this->load->view('templates/sidebar', $data);
+        $this->load->view('admin/pupuk', $data);
+        $this->load->view('templates/footer', $data);
     }
 }
 ini_set('display_errors', 'off');

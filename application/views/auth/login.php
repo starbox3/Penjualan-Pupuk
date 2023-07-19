@@ -48,5 +48,8 @@
     <p class="mb-0">
         <a href="<?= base_url('auth/forgotpassword'); ?>">Lupa Password?</a>
     </p>
+    <p class="mb-0">
+        <a href="<?= base_url('auth/registration'); ?>" class="text-center">Belum punya akun?</a>
+    </p>
 
 </div>

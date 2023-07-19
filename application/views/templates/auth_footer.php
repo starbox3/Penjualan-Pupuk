@@ -6,7 +6,15 @@
 <!-- AdminLTE App -->
 <script src="<?= base_url('assets/template/') ?>dist/js/adminlte.min.js"></script>
 
-<script src="<?= base_url('assets/template/') ?>dist/js/scripts.js"></script>
+<!-- <script src="<?= base_url('assets/template/') ?>dist/js/scripts.js"></script> -->
+<!-- InputMask -->
+<script src="<?= base_url('assets/template/') ?>plugins/moment/moment.min.js"></script>
+<script src="<?= base_url('assets/template/') ?>plugins/inputmask/jquery.inputmask.min.js"></script>
+<script>
+    $(function() {
+        $('[data-mask]').inputmask()
+    })
+</script>
 </body>
 
 </html>
