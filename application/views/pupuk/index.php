@@ -34,21 +34,24 @@
                 </div>
             </div>
         </div>
-        <?php foreach ($pupuk as $data) : ?>
-            <div class="row featured__filter">
-                <div class="col-lg-3 col-md-4 col-sm-6 mix <?= $data['jenis']; ?> fresh-meat">
+        <div class="row featured__filter">
+            <?php foreach ($pupuk as $data) : ?>
+                <div class="col-lg-3 col-md-4 col-sm-6 mix <?= $data['jenis']; ?>">
                     <div class="featured__item">
                         <div class="categories__item set-bg" data-setbg="<?= base_url('assets/template/dist/img/pupuk/' . $data['gambar']) ?>">
                             <h5><a href="<?= base_url('pupuk/detail?pupuk=') . $data['id'] ?>">Cek Detail</a></h5>
                         </div>
                         <div class="featured__item__text">
                             <h6><?= $data['nama']; ?></h6>
-                            <h5>Rp. <?= $data['harga']; ?></h5>
+                            <?php
+                            $harga = "Rp. " . number_format($data['harga'], 0, ".", ".");
+                            ?>
+                            <h5><?= $harga; ?></h5>
                         </div>
                     </div>
                 </div>
-            </div>
-        <?php endforeach; ?>
+            <?php endforeach; ?>
+        </div>
     </div>
 </section>
 <!-- Featured Section End -->

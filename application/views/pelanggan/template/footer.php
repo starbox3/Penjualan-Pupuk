@@ -63,6 +63,36 @@
 <script src="<?= base_url('assets/produk/') ?>js/mixitup.min.js"></script>
 <script src="<?= base_url('assets/produk/') ?>js/owl.carousel.min.js"></script>
 <script src="<?= base_url('assets/produk/') ?>js/main.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+    $('.form-cart').on('click', function() {
+        const cartId = $(this).data('cart');
+        $.ajax({
+            url: "<?= base_url('pelanggan/updatecart'); ?>",
+            type: 'post',
+            data: {
+                cartId: cartId
+            },
+            success: function() {
+                document.location.href = "<?= base_url('pelanggan/cart'); ?>";
+            }
+        });
+    });
+</script>
+<script>
+    const btn = document.getElementById('btn');
+    btn.addEventListener('click', function() {
+        Swal.fire(
+                'Good job!',
+                'You clicked the button!',
+                'success'
+            ),
+            function() {
+                window.location = "<?= base_url('pelanggan/cart'); ?>";
+            }
+    })
+</script>
 </body>
 
 </html>

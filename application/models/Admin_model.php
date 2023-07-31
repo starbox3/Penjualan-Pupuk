@@ -10,24 +10,25 @@ class Admin_model extends CI_Model
                     ON `user_sub_menu`.`menu_id` = `user_menu`.`id`";
                 return $this->db->query($query)->result_array();
         }
-        public function viewSuratMasukTipe($tipe)
+        public function pembayaran()
         {
-                $query = "SELECT `tbl_surat_masuk`.*,`tbl_data_penduduk`.`nama` FROM `tbl_surat_masuk` JOIN `tbl_data_penduduk` ON `tbl_surat_masuk`.`nik`=`tbl_data_penduduk`.`nik` AND `tbl_surat_masuk`.`tipe_surat`= $tipe ORDER BY `no_agenda` DESC";
+                $query = "SELECT `tbl_pembayaran`.*,`users`.* 
+                FROM `tbl_pembayaran` 
+                JOIN `users` 
+                ON `tbl_pembayaran`.`id_user`=`users`.`id`";
                 return $this->db->query($query)->result_array();
         }
-        public function viewSuratMasuk()
+        public function detailpembayaran($id)
         {
-                $query = "SELECT `tbl_surat_masuk`.*,`tbl_data_penduduk`.`nama` FROM `tbl_surat_masuk` JOIN `tbl_data_penduduk` ON `tbl_surat_masuk`.`nik`=`tbl_data_penduduk`.`nik` ORDER BY `no_agenda` DESC";
-                return $this->db->query($query)->result_array();
-        }
-        public function viewSuratKeluarTipe($tipe)
-        {
-                $query = "SELECT `tbl_surat_keluar`.*,`tbl_data_penduduk`.`nama` FROM `tbl_surat_keluar` JOIN `tbl_data_penduduk` ON `tbl_surat_keluar`.`nik`=`tbl_data_penduduk`.`nik` AND `tbl_surat_keluar`.`tipe_surat`= $tipe ORDER BY `no_agenda` DESC";
-                return $this->db->query($query)->result_array();
-        }
-        public function viewSuratKeluar()
-        {
-                $query = "SELECT `tbl_surat_keluar`.*,`tbl_data_penduduk`.`nama` FROM `tbl_surat_keluar` JOIN `tbl_data_penduduk` ON `tbl_surat_keluar`.`nik`=`tbl_data_penduduk`.`nik` ORDER BY `no_agenda` DESC";
+                $query = "SELECT `tbl_keranjang`.*,`users`.*,`tbl_pembayaran`.*,`tbl_pupuk`.*
+                FROM `tbl_keranjang` 
+                JOIN `users`
+                ON `tbl_keranjang`.`id_user`=`users`.`id`
+                JOIN `tbl_pembayaran`
+                ON `tbl_keranjang`.`id_pembayaran`=`tbl_pembayaran`.`id_pembayaran`
+                JOIN `tbl_pupuk`
+                ON `tbl_keranjang`.`id_pupuk`=`tbl_pupuk`.`id`
+                WHERE `tbl_pembayaran`.`id_pembayaran`='$id'";
                 return $this->db->query($query)->result_array();
         }
 
@@ -46,7 +47,6 @@ class Admin_model extends CI_Model
                 $this->db->where('id', $id);
                 $this->db->delete('user_sub_menu');
         }
-
         public function deleteMenu($id)
         {
                 $this->db->where('id', $id);
@@ -57,19 +57,14 @@ class Admin_model extends CI_Model
                 $this->db->where_in('id', $checkid);
                 return $this->db->delete('users');
         }
-        public function deleteSelectSuratMasuk($checkid)
+        public function deleteSelectPupuk($checkid)
         {
-                $this->db->where_in('no_agenda', $checkid);
-                return $this->db->delete('tbl_surat_masuk');
+                $this->db->where_in('id', $checkid);
+                return $this->db->delete('tbl_pupuk');
         }
-        public function deleteSelectSuratKeluar($checkid)
+        public function deleteSelectBank($checkid)
         {
-                $this->db->where_in('no_agenda', $checkid);
-                return $this->db->delete('tbl_surat_keluar');
-        }
-        public function deleteSelectPenduduk($checkid)
-        {
-                $this->db->where_in('id_penduduk', $checkid);
-                return $this->db->delete('tbl_data_penduduk');
+                $this->db->where_in('id_bank', $checkid);
+                return $this->db->delete('tbl_bank');
         }
 }

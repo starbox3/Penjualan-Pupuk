@@ -423,515 +423,7 @@ class Admin extends CI_Controller
             redirect('admin/pengaturan');
         }
     }
-
-    public function suratmasuk()
-    {
-        $data['pengaturan'] = $this->db->get('tbl_pengaturan_umum')->result_array();
-        $data['user'] = $this->db->get_where('users', ['email' => $this->session->userdata('email')])->row_array();
-        $data['title'] = 'Surat Masuk';
-
-        $data['tipe'] = $this->input->post('tipe');
-        if ($data['tipe'] == null) {
-            $data['penduduk'] = $this->db->get('tbl_data_penduduk')->result_array();
-            $this->load->model('Admin_model');
-            $data['surat'] = $this->Admin_model->viewSuratMasuk();
-            $this->load->view('templates/header', $data);
-            $this->load->view('templates/navbar', $data);
-            $this->load->view('templates/sidebar', $data);
-            $this->load->view('admin/suratmasuk', $data);
-            $this->load->view('templates/footer');
-        } else {
-            $data['penduduk'] = $this->db->get('tbl_data_penduduk')->result_array();
-            $this->load->model('Admin_model');
-            $data['surat'] = $this->Admin_model->viewSuratMasukTipe($data['tipe']);
-            $this->load->view('templates/header', $data);
-            $this->load->view('templates/navbar', $data);
-            $this->load->view('templates/sidebar', $data);
-            $this->load->view('admin/suratmasuk', $data);
-            $this->load->view('templates/footer');
-        }
-    }
-    public function suratkeluar()
-    {
-        $data['pengaturan'] = $this->db->get('tbl_pengaturan_umum')->result_array();
-        $data['user'] = $this->db->get_where('users', ['email' => $this->session->userdata('email')])->row_array();
-        $data['title'] = 'Surat Keluar';
-        $data['tipe'] = $this->input->post('tipe');
-        if ($data['tipe'] == null) {
-            $data['penduduk'] = $this->db->get('tbl_data_penduduk')->result_array();
-            $data['SM'] = $this->db->get('tbl_surat_masuk')->result_array();
-            $this->load->model('Admin_model');
-            $data['surat'] = $this->Admin_model->viewSuratKeluar();
-            $this->load->view('templates/header', $data);
-            $this->load->view('templates/navbar', $data);
-            $this->load->view('templates/sidebar', $data);
-            $this->load->view('admin/suratkeluar', $data);
-            $this->load->view('templates/footer');
-        } else {
-            $data['penduduk'] = $this->db->get('tbl_data_penduduk')->result_array();
-            $data['SM'] = $this->db->get('tbl_surat_masuk')->result_array();
-            $this->load->model('Admin_model');
-            $data['surat'] = $this->Admin_model->viewSuratKeluarTipe($data['tipe']);
-            $this->load->view('templates/header', $data);
-            $this->load->view('templates/navbar', $data);
-            $this->load->view('templates/sidebar', $data);
-            $this->load->view('admin/suratkeluar', $data);
-            $this->load->view('templates/footer');
-        }
-    }
-
-    public function addSuratMasuk()
-    {
-        $data['user'] = $this->db->get_where('users', ['email' => $this->session->userdata('email')])->row_array();
-        $data = [
-            'nik' => $this->input->post('nik'),
-            'tipe_surat' => $this->input->post('tipe'),
-            'nomor_surat' => $this->input->post('nomorSurat'),
-            'tanggal_surat' => $this->input->post('tanggalSurat'),
-            'asal_surat' => $this->input->post('asalSurat'),
-            'perihal' => $this->input->post('perihal'),
-            'ringkasan' => $this->input->post('ringkasan'),
-        ];
-        $upload_favicon = $_FILES['file']['name'];
-        if ($upload_favicon) {
-            $config['allowed_types'] = 'gif|jpg|png|pdf';
-            $config['max_size']      = '9048';
-            $config['upload_path']   = './assets/uploads/suratmasuk/';
-            $this->load->library('upload', $config);
-            if ($this->upload->do_upload('file')) {
-                $old_image = $data['gambar']['file'];
-                if ($old_image != 'favicon.png') {
-                    unlink(FCPATH . 'assets/uploads/suratmasuk/' . $old_image);
-                }
-                $new_image = $this->upload->data('file_name');
-                $this->db->set('file_surat', $new_image);
-            } else {
-                echo $this->upload->display_errors();
-            }
-        }
-        $this->db->insert('tbl_surat_masuk', $data);
-        $this->session->set_flashdata('messageAdd', $this->messageAdd());
-        redirect('admin/suratMasuk');
-    }
-    public function editSuratMasuk()
-    {
-        $data['pengaturan'] = $this->db->get('tbl_pengaturan_umum')->result_array();
-        $data['user'] = $this->db->get_where('users', ['email' => $this->session->userdata('email')])->row_array();
-        $data['title'] = 'Surat Masuk';
-        $idsurat = $this->input->get('surat');
-        $data['surat'] = $this->db->get_where('tbl_surat_masuk', ['no_agenda' => $idsurat])->row_array();
-        $data['penduduk'] = $this->db->get('tbl_data_penduduk')->result_array();
-        if ($data['surat'] == null) {
-            $this->load->view('templates/header', $data);
-            $this->load->view('templates/navbar', $data);
-            $this->load->view('templates/sidebar', $data);
-            $this->load->view('admin/error-404', $data);
-            $this->load->view('templates/footer');
-        } else {
-            $this->load->view('templates/header', $data);
-            $this->load->view('templates/navbar', $data);
-            $this->load->view('templates/sidebar', $data);
-            $this->load->view('admin/editsuratmasuk', $data);
-            $this->load->view('templates/footer');
-        }
-    }
-    public function updateSuratMasuk()
-    {
-        $idsurat = $this->input->get('surat');
-        $data = [
-            'nik' => $this->input->post('nik'),
-            'tipe_surat' => $this->input->post('tipe'),
-            'nomor_surat' => $this->input->post('nomorSurat'),
-            'tanggal_surat' => $this->input->post('tanggalSurat'),
-            'asal_surat' => $this->input->post('asalSurat'),
-            'perihal' => $this->input->post('perihal'),
-            'ringkasan' => $this->input->post('ringkasan'),
-            'status' => 0,
-        ];
-        $upload_favicon = $_FILES['file']['name'];
-        if ($upload_favicon) {
-            $config['allowed_types'] = 'gif|jpg|png|pdf';
-            $config['max_size']      = '9048';
-            $config['upload_path']   = './assets/uploads/suratmasuk/';
-            $this->load->library('upload', $config);
-            if ($this->upload->do_upload('file')) {
-                $old_file = $data['gambar']['file'];
-                if ($old_file != 'favicon.png') {
-                    unlink(FCPATH . 'assets/uploads/suratmasuk/' . $old_file);
-                }
-                $new_file = $this->upload->data('file_name');
-                $this->db->set('file_surat', $new_file);
-            } else {
-                echo $this->upload->display_errors();
-            }
-        }
-        $this->db->where('no_agenda', $idsurat);
-        $this->db->update('tbl_surat_masuk', $data);
-        $this->session->set_flashdata('messageEdit', $this->messageEdit());
-        redirect('admin/suratMasuk');
-    }
-    public function deleteAllSuratMasuk()
-    {
-        if (isset($_POST['deleteselect'])) {
-            if (!empty($this->input->post('check_value'))) {
-                $checkpost = $this->input->post('check_value');
-                $checkid = [];
-                foreach ($checkpost as $cp) {
-                    array_push($checkid, $cp);
-                }
-                $this->load->model('Admin_model');
-                $this->Admin_model->deleteSelectSuratMasuk($checkid);
-                $this->session->set_flashdata('messageDelete', $this->messageDelete());
-                redirect('admin/suratmasuk');
-            } else {
-                $this->session->set_flashdata('messageNoSelect', $this->messageNoSelect());
-                redirect('admin/suratmasuk');
-            }
-        }
-        $status = 'Error 500';
-        echo json_encode($status);
-    }
-    public function reportSuratMasuk()
-    {
-        $data['pengaturan'] = $this->db->get('tbl_pengaturan_umum')->result_array();
-        $data['user'] = $this->db->get_where('users', ['email' => $this->session->userdata('email')])->row_array();
-        $data['range'] = $this->input->post('report');
-        $this->load->view('admin/reportmasuk', $data);
-    }
-    public function reportSuratKeluar()
-    {
-        $data['pengaturan'] = $this->db->get('tbl_pengaturan_umum')->result_array();
-        $data['user'] = $this->db->get_where('users', ['email' => $this->session->userdata('email')])->row_array();
-        $data['range'] = $this->input->post('report');
-        $date = date('Y-m-d');
-        $bulan = array(
-            1 =>   'Januari',
-            'Februari',
-            'Maret',
-            'April',
-            'Mei',
-            'Juni',
-            'Juli',
-            'Agustus',
-            'September',
-            'Oktober',
-            'November',
-            'Desember'
-        );
-        $split      = explode('-', $date);
-        $data['tanggal'] = $split[2] . ' ' . $bulan[(int)$split[1]] . ' ' . $split[0];
-        $this->load->view('admin/reportkeluar', $data);
-    }
-
-    public function addSuratKeluar()
-    {
-        $data = [
-            'nik' => $this->input->post('nik'),
-            'tipe_surat' => $this->input->post('tipe'),
-            'nomor_surat_masuk' => $this->input->post('suratmasuk'),
-            'nomor_surat' => $this->input->post('nomorSurat'),
-            'tanggal_surat' => $this->input->post('tanggalSurat'),
-            'tujuan_surat' => $this->input->post('tujuanSurat'),
-            'perihal' => $this->input->post('perihal'),
-            'ringkasan' => $this->input->post('ringkasan'),
-        ];
-        $upload_favicon = $_FILES['file']['name'];
-        if ($upload_favicon) {
-            $config['allowed_types'] = 'gif|jpg|png|pdf';
-            $config['max_size']      = '9048';
-            $config['upload_path']   = './assets/uploads/suratkeluar/';
-            $this->load->library('upload', $config);
-            if ($this->upload->do_upload('file')) {
-                $old_file = $data['gambar']['file'];
-                if ($old_file != 'favicon.png') {
-                    unlink(FCPATH . 'assets/uploads/suratkeluar/' . $old_file);
-                }
-                $new_file = $this->upload->data('file_name');
-                $this->db->set('file_surat', $new_file);
-            } else {
-                echo $this->upload->display_errors();
-            }
-        }
-        $this->db->insert('tbl_surat_keluar', $data);
-        $this->session->set_flashdata('messageAdd', $this->messageAdd());
-        redirect('admin/suratKeluar');
-    }
-    public function editSuratKeluar()
-    {
-        $data['pengaturan'] = $this->db->get('tbl_pengaturan_umum')->result_array();
-        $data['user'] = $this->db->get_where('users', ['email' => $this->session->userdata('email')])->row_array();
-        $data['title'] = 'Surat Keluar';
-        $idsurat = $this->input->get('surat');
-        $data['surat'] = $this->db->get_where('tbl_surat_keluar', ['no_agenda' => $idsurat])->row_array();
-        $data['penduduk'] = $this->db->get('tbl_data_penduduk')->result_array();
-        $data['SM'] = $this->db->get('tbl_surat_masuk')->result_array();
-        if ($data['surat'] == null) {
-            $this->load->view('templates/header', $data);
-            $this->load->view('templates/navbar', $data);
-            $this->load->view('templates/sidebar', $data);
-            $this->load->view('admin/error-404', $data);
-            $this->load->view('templates/footer');
-        } else {
-            $this->load->view('templates/header', $data);
-            $this->load->view('templates/navbar', $data);
-            $this->load->view('templates/sidebar', $data);
-            $this->load->view('admin/editsuratkeluar', $data);
-            $this->load->view('templates/footer');
-        }
-    }
-    public function updateSuratKeluar()
-    {
-        $idsurat = $this->input->get('surat');
-        $data = [
-            'nik' => $this->input->post('nik'),
-            'tipe_surat' => $this->input->post('tipe'),
-            'nomor_surat_masuk' => $this->input->post('suratmasuk'),
-            'nomor_surat' => $this->input->post('nomorSurat'),
-            'tanggal_surat' => $this->input->post('tanggalSurat'),
-            'tujuan_surat' => $this->input->post('tujuanSurat'),
-            'perihal' => $this->input->post('perihal'),
-            'ringkasan' => $this->input->post('ringkasan'),
-        ];
-        $upload_favicon = $_FILES['file']['name'];
-        if ($upload_favicon) {
-            $config['allowed_types'] = 'gif|jpg|png|pdf';
-            $config['max_size']      = '9048';
-            $config['upload_path']   = './assets/uploads/suratkeluar/';
-            $this->load->library('upload', $config);
-            if ($this->upload->do_upload('file')) {
-                $old_image = $data['gambar']['file'];
-                if ($old_image != 'favicon.png') {
-                    unlink(FCPATH . 'assets/uploads/suratkeluar/' . $old_image);
-                }
-                $new_image = $this->upload->data('file_name');
-                $this->db->set('file_surat', $new_image);
-            } else {
-                echo $this->upload->display_errors();
-            }
-        }
-        $this->db->where('no_agenda', $idsurat);
-        $this->db->update('tbl_surat_keluar', $data);
-        $this->session->set_flashdata('messageEdit', $this->messageEdit());
-        redirect('admin/suratKeluar');
-    }
-    public function deleteAllSuratKeluar()
-    {
-        if (isset($_POST['deleteselect'])) {
-            if (!empty($this->input->post('check_value'))) {
-                $checkpost = $this->input->post('check_value');
-                $checkid = [];
-                foreach ($checkpost as $cp) {
-                    array_push($checkid, $cp);
-                }
-                $this->load->model('Admin_model');
-                $this->Admin_model->deleteSelectSuratKeluar($checkid);
-                $this->session->set_flashdata('messageDelete', $this->messageDelete());
-                redirect('admin/suratkeluar');
-            } else {
-                $this->session->set_flashdata('messageNoSelect', $this->messageNoSelect());
-                redirect('admin/suratkeluar');
-            }
-        }
-        $status = 'Error 500';
-        echo json_encode($status);
-    }
-    public function dataPenduduk()
-    {
-        $data['pengaturan'] = $this->db->get('tbl_pengaturan_umum')->result_array();
-        $data['user'] = $this->db->get_where('users', ['email' => $this->session->userdata('email')])->row_array();
-        $data['title'] = 'Data Penduduk';
-        $data['penduduk'] = $this->db->get('tbl_data_penduduk')->result_array();
-        $this->form_validation->set_rules(
-            'nik',
-            'Nik',
-            'required|trim|is_unique[tbl_data_penduduk.nik]',
-            [
-                'is_unique' => 'NIK ini sudah ada terdaftar di sistem!'
-            ]
-        );
-        if ($this->form_validation->run() == false) {
-            $this->load->view('templates/header', $data);
-            $this->load->view('templates/navbar', $data);
-            $this->load->view('templates/sidebar', $data);
-            $this->load->view('admin/datapenduduk', $data);
-            $this->load->view('templates/footer');
-        } else {
-            $data = [
-                'nik' => $this->input->post('nik'),
-                'provinsi' => $this->input->post('provinsi'),
-                'kabupaten' => $this->input->post('kabupaten'),
-                'nama' => $this->input->post('nama'),
-                'tanggal_lahir' => $this->input->post('tanggallahir'),
-                'tempat_lahir' => $this->input->post('tempatlahir'),
-                'jenis_kelamin' => $this->input->post('jeniskelamin'),
-                'golongan_darah' => $this->input->post('golongandarah'),
-                'alamat' => $this->input->post('alamat'),
-                'rt_rw' => $this->input->post('rtrw'),
-                'kel_desa' => $this->input->post('keldesa'),
-                'kecamatan' => $this->input->post('kecamatan'),
-                'agama' => $this->input->post('agama'),
-                'status' => $this->input->post('status'),
-                'pekerjaan' => $this->input->post('pekerjaan'),
-                'kewarganegaraan' => $this->input->post('kewarganegaraan'),
-            ];
-            $this->db->insert('tbl_data_penduduk', $data);
-            $this->session->set_flashdata('messageAdd', $this->messageAdd());
-            redirect('admin/dataPenduduk');
-        }
-    }
-    // public function addPenduduk()
-    // {
-    //     $data = [
-    //         'nik' => $this->input->post('nik'),
-    //         'provinsi' => $this->input->post('provinsi'),
-    //         'kabupaten' => $this->input->post('kabupaten'),
-    //         'nama' => $this->input->post('nama'),
-    //         'tanggal_lahir' => $this->input->post('tanggallahir'),
-    //         'tempat_lahir' => $this->input->post('tempatlahir'),
-    //         'jenis_kelamin' => $this->input->post('jeniskelamin'),
-    //         'golongan_darah' => $this->input->post('golongandarah'),
-    //         'alamat' => $this->input->post('alamat'),
-    //         'rt_rw' => $this->input->post('rtrw'),
-    //         'kel_desa' => $this->input->post('keldesa'),
-    //         'kecamatan' => $this->input->post('kecamatan'),
-    //         'agama' => $this->input->post('agama'),
-    //         'status' => $this->input->post('status'),
-    //         'pekerjaan' => $this->input->post('pekerjaan'),
-    //         'kewarganegaraan' => $this->input->post('kewarganegaraan'),
-    //     ];
-    //     $this->db->insert('tbl_data_penduduk', $data);
-    //     $this->session->set_flashdata('messageAdd', $this->messageAdd());
-    //     redirect('admin/dataPenduduk');
-    // }
-    public function deleteAllPenduduk()
-    {
-        if (isset($_POST['deleteselect'])) {
-            if (!empty($this->input->post('check_value'))) {
-                $checkpost = $this->input->post('check_value');
-                $checkid = [];
-                foreach ($checkpost as $cp) {
-                    array_push($checkid, $cp);
-                }
-                $this->load->model('Admin_model');
-                $this->Admin_model->deleteSelectPenduduk($checkid);
-                $this->session->set_flashdata('messageDelete', $this->messageDelete());
-                redirect('admin/dataPenduduk');
-            } else {
-                $this->session->set_flashdata('messageNoSelect', $this->messageNoSelect());
-                redirect('admin/dataPenduduk');
-            }
-        }
-        $status = 'Error 500';
-        echo json_encode($status);
-    }
-    public function editPenduduk()
-    {
-        $data['pengaturan'] = $this->db->get('tbl_pengaturan_umum')->result_array();
-        $data['user'] = $this->db->get_where('users', ['email' => $this->session->userdata('email')])->row_array();
-        $data['title'] = 'Data Penduduk';
-        $nik = $this->input->get('data');
-        $data['penduduk'] = $this->db->get_where('tbl_data_penduduk', ['nik' => $nik])->row_array();
-        if ($data['penduduk'] == null) {
-            $this->load->view('templates/header', $data);
-            $this->load->view('templates/navbar', $data);
-            $this->load->view('templates/sidebar', $data);
-            $this->load->view('admin/error-404', $data);
-            $this->load->view('templates/footer');
-        } else {
-            $this->load->view('templates/header', $data);
-            $this->load->view('templates/navbar', $data);
-            $this->load->view('templates/sidebar', $data);
-            $this->load->view('admin/editpenduduk', $data);
-            $this->load->view('templates/footer');
-        }
-    }
-    public function updatePenduduk()
-    {
-        $nik = $this->input->get('data');
-        $data = [
-            'nik' => $this->input->post('nik'),
-            'provinsi' => $this->input->post('provinsi'),
-            'kabupaten' => $this->input->post('kabupaten'),
-            'nama' => $this->input->post('nama'),
-            'tanggal_lahir' => $this->input->post('tanggallahir'),
-            'tempat_lahir' => $this->input->post('tempatlahir'),
-            'jenis_kelamin' => $this->input->post('jeniskelamin'),
-            'golongan_darah' => $this->input->post('golongandarah'),
-            'alamat' => $this->input->post('alamat'),
-            'rt_rw' => $this->input->post('rtrw'),
-            'kel_desa' => $this->input->post('keldesa'),
-            'kecamatan' => $this->input->post('kecamatan'),
-            'agama' => $this->input->post('agama'),
-            'status' => $this->input->post('status'),
-            'pekerjaan' => $this->input->post('pekerjaan'),
-            'kewarganegaraan' => $this->input->post('kewarganegaraan'),
-        ];
-        $this->db->where('nik', $nik);
-        $this->db->update('tbl_data_penduduk', $data);
-        $this->session->set_flashdata('messageEdit', $this->messageEdit());
-        redirect('admin/dataPenduduk');
-    }
-    public function viewData()
-    {
-        $data['pengaturan'] = $this->db->get('tbl_pengaturan_umum')->result_array();
-        $data['user'] = $this->db->get_where('users', ['email' => $this->session->userdata('email')])->row_array();
-        $data['title'] = 'Data Penduduk';
-        $nik = $this->input->get('data');
-        $data['penduduk'] = $this->db->get_where('tbl_data_penduduk', ['nik' => $nik])->row_array();
-        $this->load->view('templates/header', $data);
-        $this->load->view('templates/navbar', $data);
-        $this->load->view('templates/sidebar', $data);
-        $this->load->view('admin/viewdata', $data);
-        $this->load->view('templates/footer');
-    }
-    function deleteAllUser()
-    {
-        if (isset($_POST['deleteselect'])) {
-            if (!empty($this->input->post('check_value'))) {
-                $checkpost = $this->input->post('check_value');
-                $checkid = [];
-                foreach ($checkpost as $cp) {
-                    array_push($checkid, $cp);
-                }
-                $this->load->model('Admin_model');
-                $this->Admin_model->deleteSelectUser($checkid);
-                $this->session->set_flashdata('messageDelete', $this->messageDelete());
-                redirect('admin/user');
-            } else {
-                $this->session->set_flashdata('messageNoSelect', $this->messageNoSelect());
-                redirect('admin/user');
-            }
-        }
-        $status = 'Error 500';
-        echo json_encode($status);
-    }
-    public function laporan()
-    {
-        $data['pengaturan'] = $this->db->get('tbl_pengaturan_umum')->result_array();
-        $data['user'] = $this->db->get_where('users', ['email' => $this->session->userdata('email')])->row_array();
-        $data['title'] = 'Laporan';
-        $data['periode'] = $this->input->get('periode');
-        $data['periode1'] = $this->input->post('year');
-        $data['tipe'] = $this->input->post('surat');
-        $this->load->view('templates/header', $data);
-        $this->load->view('templates/navbar', $data);
-        $this->load->view('templates/sidebar', $data);
-        $this->load->view('admin/laporansurat', $data);
-        $this->load->view('templates/footer_chart');
-    }
-    public function cetakansurat()
-    {
-        $data = [
-            'tahun' => $this->input->post('year'),
-            'bulan' => $this->input->post('bulan'),
-            'surat' => $this->input->post('surat')
-        ];
-        if ($data['surat'] == 1) {
-            $this->load->view('admin/periodesuratmasuk', $data);
-        } else {
-            $this->load->view('admin/periodesuratkeluar', $data);
-        }
-    }
+    // ===================================================
     public function pupuk()
     {
         $data['pengaturan'] = $this->db->get('tbl_pengaturan_umum')->result_array();
@@ -944,5 +436,272 @@ class Admin extends CI_Controller
         $this->load->view('admin/pupuk', $data);
         $this->load->view('templates/footer', $data);
     }
+
+    public function tambahpupuk()
+    {
+        $data['pengaturan'] = $this->db->get('tbl_pengaturan_umum')->result_array();
+        $data['user'] = $this->db->get_where('users', ['email' => $this->session->userdata('email')])->row_array();
+        $data['title'] = 'Pupuk';
+        $data['pupuk'] = $this->db->get('tbl_pupuk')->result_array();
+        $this->load->view('templates/header', $data);
+        $this->load->view('templates/navbar', $data);
+        $this->load->view('templates/sidebar', $data);
+        $this->load->view('admin/tambahpupuk', $data);
+        $this->load->view('templates/footer', $data);
+    }
+    public function addpupuk()
+    {
+        $data = [
+            'nama' => $this->input->post('nama'),
+            'harga' => $this->input->post('harga'),
+            'jenis' => $this->input->post('jenis'),
+            'stok' => $this->input->post('stok'),
+            'keterangan' => $this->input->post('keterangan'),
+            'deskripsi' => $this->input->post('deskripsi'),
+            'informasi' => $this->input->post('informasi'),
+        ];
+        $upload_favicon = $_FILES['file']['name'];
+        if ($upload_favicon) {
+            $config['allowed_types'] = 'gif|jpg|png|pdf';
+            $config['max_size']      = '9048';
+            $config['upload_path']   = './assets/template/dist/img/pupuk/';
+            $this->load->library('upload', $config);
+            if ($this->upload->do_upload('file')) {
+                $old_image = $data['gambar']['file'];
+                if ($old_image != 'favicon.png') {
+                    unlink(FCPATH . '/assets/template/dist/img/pupuk/' . $old_image);
+                }
+                $new_image = $this->upload->data('file_name');
+                $this->db->set('gambar', $new_image);
+            } else {
+                echo $this->upload->display_errors();
+            }
+        }
+        $this->db->insert('tbl_pupuk', $data);
+        $this->session->set_flashdata('messageAdd', $this->messageAdd());
+        redirect('admin/pupuk');
+    }
+    public function deleteAllPupuk()
+    {
+        if (isset($_POST['deleteselect'])) {
+            if (!empty($this->input->post('check_value'))) {
+                $checkpost = $this->input->post('check_value');
+                $checkid = [];
+                foreach ($checkpost as $cp) {
+                    array_push($checkid, $cp);
+                }
+                $this->load->model('Admin_model');
+                $this->Admin_model->deleteSelectPupuk($checkid);
+                $this->session->set_flashdata('messageDelete', $this->messageDelete());
+                redirect('admin/pupuk');
+            } else {
+                $this->session->set_flashdata('messageNoSelect', $this->messageNoSelect());
+                redirect('admin/pupuk');
+            }
+        }
+        $status = 'Error 500';
+        echo json_encode($status);
+    }
+    public function editPupuk()
+    {
+        $data['pengaturan'] = $this->db->get('tbl_pengaturan_umum')->result_array();
+        $data['user'] = $this->db->get_where('users', ['email' => $this->session->userdata('email')])->row_array();
+        $data['title'] = 'Pupuk';
+        $id = $this->input->get('pupuk');
+        $data['pupuk'] = $this->db->get('tbl_pupuk', ['id' => $id])->row_array();
+        // var_dump($data['pupuk']);
+        // die;
+        $this->load->view('templates/header', $data);
+        $this->load->view('templates/navbar', $data);
+        $this->load->view('templates/sidebar', $data);
+        $this->load->view('admin/editpupuk', $data);
+        $this->load->view('templates/footer', $data);
+    }
+    public function editDataPupuk()
+    {
+        $id = $this->input->get('pupuk');
+        $data = [
+            'nama' => $this->input->post('nama'),
+            'harga' => $this->input->post('harga'),
+            'jenis' => $this->input->post('jenis'),
+            'stok' => $this->input->post('stok'),
+            'keterangan' => $this->input->post('keterangan'),
+            'deskripsi' => $this->input->post('deskripsi'),
+            'informasi' => $this->input->post('informasi'),
+        ];
+        $upload_favicon = $_FILES['file']['name'];
+        if ($upload_favicon) {
+            $config['allowed_types'] = 'gif|jpg|png|pdf';
+            $config['max_size']      = '9048';
+            $config['upload_path']   = './assets/template/dist/img/pupuk/';
+            $this->load->library('upload', $config);
+            if ($this->upload->do_upload('file')) {
+                $old_image = $data['gambar']['file'];
+                if ($old_image != 'favicon.png') {
+                    unlink(FCPATH . '/assets/template/dist/img/pupuk/' . $old_image);
+                }
+                $new_image = $this->upload->data('file_name');
+                $this->db->set('gambar', $new_image);
+            } else {
+                echo $this->upload->display_errors();
+            }
+        }
+        $this->db->where('id', $id);
+        $this->db->update('tbl_pupuk', $data);
+        $this->session->set_flashdata('messageAdd', $this->messageAdd());
+        redirect('admin/pupuk');
+    }
+    public function pembayaran()
+    {
+        $data['pengaturan'] = $this->db->get('tbl_pengaturan_umum')->result_array();
+        $data['user'] = $this->db->get_where('users', ['email' => $this->session->userdata('email')])->row_array();
+        $data['title'] = 'Pembayaran';
+        $this->load->model('Admin_model');
+        $data['pembayaran'] = $this->Admin_model->pembayaran();
+        // $data['pembayaran'] = $this->db->get('tbl_pembayaran')->result_array();
+        $this->load->view('templates/header', $data);
+        $this->load->view('templates/navbar', $data);
+        $this->load->view('templates/sidebar', $data);
+        $this->load->view('admin/pembayaran', $data);
+        $this->load->view('templates/footer', $data);
+    }
+    public function detailpembayaran()
+    {
+        $data['pengaturan'] = $this->db->get('tbl_pengaturan_umum')->result_array();
+        $data['user'] = $this->db->get_where('users', ['email' => $this->session->userdata('email')])->row_array();
+        $data['title'] = 'Pembayaran';
+        $id = $this->input->get('data');
+        $user = $this->input->get('user');
+        $this->load->model('Admin_model');
+        $data['chart_pembayaran'] = $this->Admin_model->detailpembayaran($id);
+        $data['id_user'] = $this->db->get_where('users', ['id' => $user])->row_array();
+        $data['pembayaran'] = $this->db->get_where('tbl_pembayaran', ['id_pembayaran' => $id])->row_array();
+        // var_dump($data['chart_pembayaran']);
+        // die;
+        $this->load->view('templates/header', $data);
+        $this->load->view('templates/navbar', $data);
+        $this->load->view('templates/sidebar', $data);
+        $this->load->view('admin/detailpembayaran', $data);
+        $this->load->view('templates/footer', $data);
+    }
+
+    public function updatepembayaran()
+    {
+        $kode = $this->input->get('kode');
+        $data = [
+            'status_pembayaran' => $this->input->post('status'),
+        ];
+        $this->db->where('id_pembayaran', $kode);
+        $this->db->update('tbl_pembayaran', $data);
+        $this->session->set_flashdata('messageAdd', $this->messageAdd());
+        redirect('admin/pembayaran');
+    }
+
+    public function bank()
+    {
+        $data['pengaturan'] = $this->db->get('tbl_pengaturan_umum')->result_array();
+        $data['user'] = $this->db->get_where('users', ['email' => $this->session->userdata('email')])->row_array();
+        $data['title'] = 'Bank';
+        $data['bank'] = $this->db->get('tbl_bank')->result_array();
+        $this->load->view('templates/header', $data);
+        $this->load->view('templates/navbar', $data);
+        $this->load->view('templates/sidebar', $data);
+        $this->load->view('admin/bank', $data);
+        $this->load->view('templates/footer', $data);
+    }
+    public function editBank()
+    {
+        $data['pengaturan'] = $this->db->get('tbl_pengaturan_umum')->result_array();
+        $data['user'] = $this->db->get_where('users', ['email' => $this->session->userdata('email')])->row_array();
+        $data['title'] = 'Bank';
+        $bank = $this->input->get('bank');
+        $data['bank'] = $this->db->get_where('tbl_bank', ['id_bank' => $bank])->row_array();
+        $this->load->view('templates/header', $data);
+        $this->load->view('templates/navbar', $data);
+        $this->load->view('templates/sidebar', $data);
+        $this->load->view('admin/editbank', $data);
+        $this->load->view('templates/footer', $data);
+    }
+    public function updateDataBank()
+    {
+        $bank = $this->input->get('bank');
+        $data = [
+            'nama_bank' => $this->input->post('nama'),
+            'nama_pemilik' => $this->input->post('atasnama'),
+            'nomor_rek' => $this->input->post('rek'),
+        ];
+        $upload_favicon = $_FILES['file']['name'];
+        if ($upload_favicon) {
+            $config['allowed_types'] = 'gif|jpg|png|pdf';
+            $config['max_size']      = '9048';
+            $config['upload_path']   = './assets/template/dist/img/bank/';
+            $this->load->library('upload', $config);
+            if ($this->upload->do_upload('file')) {
+                $old_image = $data['gambar']['file'];
+                if ($old_image != 'favicon.png') {
+                    unlink(FCPATH . '/assets/template/dist/img/bank/' . $old_image);
+                }
+                $new_image = $this->upload->data('file_name');
+                $this->db->set('logo', $new_image);
+            } else {
+                echo $this->upload->display_errors();
+            }
+        }
+        $this->db->where('id_bank', $bank);
+        $this->db->update('tbl_bank', $data);
+        $this->session->set_flashdata('messageEdit', $this->messageEdit());
+        redirect('admin/bank');
+    }
+
+    public function addbank()
+    {
+        $data = [
+            'nama_bank' => $this->input->post('nama'),
+            'nama_pemilik' => $this->input->post('atasnama'),
+            'nomor_rek' => $this->input->post('rek'),
+        ];
+        $upload_favicon = $_FILES['file']['name'];
+        if ($upload_favicon) {
+            $config['allowed_types'] = 'gif|jpg|png|pdf';
+            $config['max_size']      = '9048';
+            $config['upload_path']   = './assets/template/dist/img/bank/';
+            $this->load->library('upload', $config);
+            if ($this->upload->do_upload('file')) {
+                $old_image = $data['gambar']['file'];
+                if ($old_image != 'favicon.png') {
+                    unlink(FCPATH . '/assets/template/dist/img/bank/' . $old_image);
+                }
+                $new_image = $this->upload->data('file_name');
+                $this->db->set('logo', $new_image);
+            } else {
+                echo $this->upload->display_errors();
+            }
+        }
+        $this->db->insert('tbl_bank', $data);
+        $this->session->set_flashdata('messageAdd', $this->messageAdd());
+        redirect('admin/bank');
+    }
+    public function deleteAllBank()
+    {
+        if (isset($_POST['deleteselect'])) {
+            if (!empty($this->input->post('check_value'))) {
+                $checkpost = $this->input->post('check_value');
+                $checkid = [];
+                foreach ($checkpost as $cp) {
+                    array_push($checkid, $cp);
+                }
+                $this->load->model('Admin_model');
+                $this->Admin_model->deleteSelectBank($checkid);
+                $this->session->set_flashdata('messageDelete', $this->messageDelete());
+                redirect('admin/bank');
+            } else {
+                $this->session->set_flashdata('messageNoSelect', $this->messageNoSelect());
+                redirect('admin/bank');
+            }
+        }
+        $status = 'Error 500';
+        echo json_encode($status);
+    }
+    // ===================================================
 }
 ini_set('display_errors', 'off');

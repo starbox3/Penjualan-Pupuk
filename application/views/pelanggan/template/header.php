@@ -1,3 +1,15 @@
+<?php if ($title == 'Home') {
+    $home = 'class="active"';
+    $riwayat = '';
+}
+if ($title == 'Riwayat') {
+    $riwayat = 'class="active"';
+    $home = '';
+}
+if ($title == 'null') {
+    $riwayat = '';
+    $home = '';
+} ?>
 <!DOCTYPE html>
 <html lang="zxx">
 
@@ -35,15 +47,21 @@
         </div>
         <div class="humberger__menu__cart">
             <ul>
-                <li><a href="#"><i class="fa fa-shopping-bag"></i></a></li>
-                <li><a href="#"><i class="fa fa-user"></i></a></li>
+                <li><a href="<?= base_url('pelanggan/cart') ?>"><i class="fa fa-shopping-bag"></i><span><?= $totalcart ?></span></a></li>
+                <li><a href="<?= base_url('auth/logout') ?>"><i class="fa fa-user"> Keluar</i></a>
+                </li>
             </ul>
         </div>
-        <div class="humberger__menu__widget">
+        <!-- <div class="humberger__menu__widget">
             <div class="header__top__right__auth">
-
             </div>
-        </div>
+        </div> -->
+        <nav class="humberger__menu__nav mobile-menu">
+            <ul>
+                <li <?= $home; ?>><a href="<?= base_url('pelanggan') ?>">Home</a></li>
+                <li <?= $riwayat; ?>><a href="<?= base_url('pelanggan/riwayatpembelian') ?>">Riwayat</a></li>
+            </ul>
+        </nav>
         <div id="mobile-menu-wrap"></div>
     </div>
     <!-- Humberger End -->
@@ -57,16 +75,19 @@
                     </div>
                 </div>
                 <div class="col-lg-6">
+                    <nav class="header__menu">
+                        <ul>
+
+                            <li <?= $home; ?>><a href="<?= base_url('pelanggan') ?>">Home</a></li>
+                            <li <?= $riwayat; ?>><a href="<?= base_url('pelanggan/riwayatpembelian') ?>">Riwayat</a></li>
+                        </ul>
+                    </nav>
                 </div>
                 <div class="col-lg-3">
                     <div class="header__cart">
                         <ul>
-
                             <li><a href="<?= base_url('pelanggan/cart') ?>"><i class="fa fa-shopping-bag"></i><span><?= $totalcart ?></span></a></li>
                             <li><a href="<?= base_url('auth/logout') ?>"><i class="fa fa-user"> Keluar</i></a>
-                                <!-- <div class="header__top__right__auth">
-                                    <a href="<?= base_url('auth') ?>"><i class="fa fa-user"></i></a>
-                                </div> -->
                             </li>
                         </ul>
                     </div>

@@ -1,7 +1,7 @@
 </div>
 <!-- /.content-wrapper -->
 <footer class="main-footer">
-  <strong>Sistem Informasi Arsip Digital</strong>
+  <strong>Penjualan Pupuk</strong>
   <div class="float-right d-none d-sm-inline-block">
 
   </div>
@@ -48,7 +48,22 @@
 <script src="<?= base_url('assets/template/') ?>plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
 <!-- ChartJS -->
 <script src="<?= base_url('assets/template/') ?>plugins/chart.js/Chart.min.js"></script>
+<!-- Summernote -->
+<script src="<?= base_url('assets/template/') ?>plugins/summernote/summernote-bs4.min.js"></script>
+<script>
+  $(function() {
+    // Summernote
+    $('#summernote').summernote()
+    $('#summernote1').summernote()
+    $('#summernote2').summernote()
 
+    // CodeMirror
+    CodeMirror.fromTextArea(document.getElementById("codeMirrorDemo"), {
+      mode: "htmlmixed",
+      theme: "monokai"
+    });
+  })
+</script>
 
 <script>
   <?= $this->session->flashdata('messageEdit'); ?>

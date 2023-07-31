@@ -35,12 +35,12 @@
         </div>
         <div class="humberger__menu__cart">
             <ul>
-                <li><a href="#"><i class="fa fa-shopping-bag"></i></a></li>
+                <li><a href="<?= base_url('auth') ?>"><i class="fa fa-shopping-bag"></i></a></li>
             </ul>
         </div>
         <div class="humberger__menu__widget">
             <div class="header__top__right__auth">
-                <a href="#"><i class="fa fa-user"></i> Login</a>
+                <a href="<?= base_url('auth') ?>"><i class="fa fa-user"></i> Masuk</a>
             </div>
         </div>
         <div id="mobile-menu-wrap"></div>
@@ -52,7 +52,7 @@
             <div class="row">
                 <div class="col-lg-3">
                     <div class="header__logo">
-                        <a href="./index.html"><img src="<?= base_url('assets/produk/') ?>img/logo.png" alt=""></a>
+                        <a href="<?= base_url('pupuk') ?>"><img src="<?= base_url('assets/produk/') ?>img/logo.png" alt=""></a>
                     </div>
                 </div>
                 <div class="col-lg-6">
