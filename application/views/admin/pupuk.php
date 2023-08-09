@@ -136,34 +136,3 @@
         </div>
     </div>
 </div>
-<div class="modal fade" id="report">
-    <div class="modal-dialog">
-        <div class="modal-content ">
-            <div class="modal-header bg-info">
-                <h4 class="modal-title">Cetak Laporan Surat Masuk</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form action="<?= base_url('admin/reportSuratMasuk') ?>" method="POST">
-                    <div class="form-group">
-                        <label>Pilih Tanggal:</label>
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">
-                                    <i class="far fa-calendar-alt"></i>
-                                </span>
-                            </div>
-                            <input type="text" class="form-control float-right" id="reservation" name="report">
-                        </div>
-                    </div>
-            </div>
-            <div class="modal-footer justify-content-between bg-info">
-                <button type="button" class="btn btn-warning" data-dismiss="modal">Batal</button>
-                <button type="submit" class="btn btn-warning">Cetak</button>
-            </div>
-            </form>
-        </div>
-    </div>
-</div>

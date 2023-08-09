@@ -11,8 +11,8 @@
           <div class="card-body">
             <form action="<?= base_url('admin/deleteAllUser') ?>" method="POST">
               <div class="col-md-6">
-                <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#addAkun"><i class="fas fa-plus"></i> Tambah User</button>
-                <button type="submit" class="btn btn-danger btn-sm" name="deleteselect"><i class="fas fa-trash"></i> Hapus User</button>
+                <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#addAkun"><i class="fas fa-plus"></i> Tambah Data Petani</button>
+                <button type="submit" class="btn btn-danger btn-sm" name="deleteselect"><i class="fas fa-trash"></i> Hapus Data</button>
               </div>
               <hr>
               <table id="example2" class="table table-bordered table-striped">
@@ -29,34 +29,28 @@
                 </thead>
                 <tbody>
                   <?php $i = 1; ?>
-                  <?php foreach ($akun as $kr) : ?>
+                  <?php foreach ($akun as $data) : ?>
                     <tr>
-                      <td class=" py-1 align-middle text-center"><input type="checkbox" name="check_value[]" class="idName" value="<?= $kr['id']; ?>"></td>
+                      <td class=" py-1 align-middle text-center"><input type="checkbox" name="check_value[]" class="idName" value="<?= $data['id']; ?>"></td>
                       <td class="py-1 align-middle">
-                        <?= $kr['name']; ?>
+                        <?= $data['name']; ?>
                       </td>
                       <td class="py-1 align-middle">
-                        <?= $kr['email']; ?>
+                        <?= $data['email']; ?>
                       </td>
                       <td class="py-1 align-middle text-center">
-                        <?php if ($kr['role_id'] == 1) {
+                        <?php if ($data['role_id'] == 1) {
                           $k = '<span class="m-0 p-2 badge bg-success">Admin</span>';
                         }
-                        if ($kr['role_id'] == 2) {
-                          $k = '<span class="m-0 p-2 badge bg-info"> RT </span>';
-                        }
-                        if ($kr['role_id'] == 3) {
-                          $k = '<span class="m-0 p-2 badge bg-warning"> KADES </span>';
-                        }
-                        if ($kr['role_id'] == 4) {
-                          $k = '<span class="m-0 p-2 badge bg-warning"> SEKDES </span>';
+                        if ($data['role_id'] == 2) {
+                          $k = '<span class="m-0 p-2 badge bg-info"> User </span>';
                         }
                         ?>
                         <?= $k; ?>
                       </td>
                       <td class="text-center py-1 align-middle">
                         <div class="btn-group btn-group-sm">
-                          <button type="button" class="btn btn-info" data-toggle="modal" data-target="#editUser<?= $kr['id']; ?>">
+                          <button type="button" class="btn btn-info" data-toggle="modal" data-target="#editUser<?= $data['id']; ?>">
                             <i class="fas fa-edit"></i>
                           </button>
                         </div>
@@ -135,8 +129,8 @@
 </div>
 
 <?php $no = 0;
-foreach ($akun as $kr) : $no++; ?>
-  <div class="modal fade" id="editUser<?= $kr['id']; ?>">
+foreach ($akun as $data) : $no++; ?>
+  <div class="modal fade" id="editUser<?= $data['id']; ?>">
     <div class="modal-dialog modal-lg">
       <div class="modal-content ">
         <div class="modal-header bg-info">
@@ -149,12 +143,12 @@ foreach ($akun as $kr) : $no++; ?>
           <?= form_open_multipart('admin/editUser'); ?>
 
           <div class="row">
-            <input type="hidden" name="id" value="<?= $kr['id']; ?>">
+            <input type="hidden" name="id" value="<?= $data['id']; ?>">
             <div class="col-sm-6">
               <!-- text input -->
               <div class="form-group">
                 <label><i class="fas fa-user mr-1"></i> Nama Lengkap</label>
-                <input type="text" class="form-control <?= form_error('name', '<small class="text-danger pl-3">', '</small>') ? 'is-invalid' : null; ?>" id="name" name="name" value="<?= $kr['name']; ?>">
+                <input type="text" class="form-control <?= form_error('name', '<small class="text-danger pl-3">', '</small>') ? 'is-invalid' : null; ?>" id="name" name="name" value="<?= $data['name']; ?>">
 
                 <?= form_error('name', '<small class="text-danger pl-3">', '</small>'); ?>
               </div>
@@ -172,7 +166,7 @@ foreach ($akun as $kr) : $no++; ?>
               <!-- text input -->
               <div class="form-group ">
                 <label><i class="fas fa-at mr-1"></i>Email</label>
-                <input type="email" class="form-control <?= form_error('email', '<small class="text-danger pl-3">', '</small>') ? 'is-invalid' : null; ?>" name="email" value="<?= $kr['email']; ?>">
+                <input type="email" class="form-control <?= form_error('email', '<small class="text-danger pl-3">', '</small>') ? 'is-invalid' : null; ?>" name="email" value="<?= $data['email']; ?>">
                 <?= form_error('email', '<small class="text-danger pl-3">', '</small>'); ?>
               </div>
             </div>
@@ -180,10 +174,10 @@ foreach ($akun as $kr) : $no++; ?>
               <div class="form-group">
                 <label><i class="fas fa-users mr-1"></i> Level User</label>
                 <select id="level" name="level" class="form-control " style="width: 100%;">
-                  <option value="1" <?= $kr['role_id'] == '1' ? 'selected' : null; ?>>Admin</option>
-                  <option value="2" <?= $kr['role_id'] == '2' ? 'selected' : null; ?>>RT</option>
-                  <option value="3" <?= $kr['role_id'] == '3' ? 'selected' : null; ?>>Kades</option>
-                  <option value="4" <?= $kr['role_id'] == '4' ? 'selected' : null; ?>>Sekdes</option>
+                  <option value="1" <?= $data['role_id'] == '1' ? 'selected' : null; ?>>Admin</option>
+                  <option value="2" <?= $data['role_id'] == '2' ? 'selected' : null; ?>>RT</option>
+                  <option value="3" <?= $data['role_id'] == '3' ? 'selected' : null; ?>>Kades</option>
+                  <option value="4" <?= $data['role_id'] == '4' ? 'selected' : null; ?>>Sekdes</option>
                 </select>
                 <?= form_error('level', '<small class="text-danger pl-3">', '</small>'); ?>
               </div>
@@ -195,7 +189,7 @@ foreach ($akun as $kr) : $no++; ?>
                 <label for="exampleInputFile"><i class="fas fa-image mr-1"></i>Foto Profile</label>
                 <div class="row">
                   <div class="col-sm-3">
-                    <img style="width: 100px ; height: 100px;" src="<?= base_url('assets/template/dist/img/') . $kr['image'] ?>" class="img-thumbnail">
+                    <img style="width: 100px ; height: 100px;" src="<?= base_url('assets/template/dist/img/') . $data['image'] ?>" class="img-thumbnail">
                   </div>
                   <div class="col-sm-9">
                     <div class="input-group">

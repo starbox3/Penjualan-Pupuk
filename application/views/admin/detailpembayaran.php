@@ -68,7 +68,7 @@
                                 </div>
                             </div>
                         </div>
-                        <form action="<?= base_url('admin/updatepembayaran?kode=' . $pembayaran['id_pembayaran']) ?>" method="POST">
+                        <form action="<?= base_url('admin/updatepembayaran?kode=' . $pembayaran['id_pembayaran'] . '&user=' . $id_user['id']) ?>" method="POST">
                             <div class="col-sm-6">
                                 <div class="form-group">
                                     <label> Aksi Pembayaran</label>

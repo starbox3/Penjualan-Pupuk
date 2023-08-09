@@ -15,7 +15,8 @@ class Admin_model extends CI_Model
                 $query = "SELECT `tbl_pembayaran`.*,`users`.* 
                 FROM `tbl_pembayaran` 
                 JOIN `users` 
-                ON `tbl_pembayaran`.`id_user`=`users`.`id`";
+                ON `tbl_pembayaran`.`id_user`=`users`.`id`
+                ORDER BY `tanggal_pembayaran` DESC";
                 return $this->db->query($query)->result_array();
         }
         public function detailpembayaran($id)
@@ -30,6 +31,14 @@ class Admin_model extends CI_Model
                 ON `tbl_keranjang`.`id_pupuk`=`tbl_pupuk`.`id`
                 WHERE `tbl_pembayaran`.`id_pembayaran`='$id'";
                 return $this->db->query($query)->result_array();
+        }
+        public function datapetani($id)
+        {
+                $query = "SELECT `tbl_data_petani`.*,`users`.*
+                FROM `tbl_data_petani` JOIN `users`
+                ON `tbl_data_petani`.`id_data_petani` = `users`.`id`
+                WHERE `tbl_data_petani`.`id_data_petani` = '$id'";
+                return $this->db->query($query)->row_array();
         }
 
         public function dropCost()
@@ -66,5 +75,12 @@ class Admin_model extends CI_Model
         {
                 $this->db->where_in('id_bank', $checkid);
                 return $this->db->delete('tbl_bank');
+        }
+        public function deleteSelectPetani($checkid)
+        {
+                $this->db->where_in('id', $checkid);
+                $this->db->delete('users');
+                $this->db->where_in('id_data_petani', $checkid);
+                return $this->db->delete('tbl_data_petani');
         }
 }

@@ -24,7 +24,6 @@
                         </div>
                     </div>
                     <a href="<?= base_url('auth') ?>" class="primary-btn">Beli Sekarang</a>
-                    <a href="<?= base_url('auth') ?>" class="heart-icon"><span class="fa fa-shopping-bag"></span></a>
                     <ul>
                         <li><b>Stok</b> <span><?= $pupuk['stok'] ?></span></li>
                         <li><b>Berat</b> <span><?= $pupuk['berat'] ?> kg</span></li>

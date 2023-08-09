@@ -587,14 +587,30 @@ class Admin extends CI_Controller
 
     public function updatepembayaran()
     {
-        $kode = $this->input->get('kode');
-        $data = [
-            'status_pembayaran' => $this->input->post('status'),
-        ];
-        $this->db->where('id_pembayaran', $kode);
-        $this->db->update('tbl_pembayaran', $data);
-        $this->session->set_flashdata('messageAdd', $this->messageAdd());
-        redirect('admin/pembayaran');
+        $id = $this->input->get('kode');
+        $user = $this->input->get('user');
+        $this->load->model('Admin_model');
+        $cartbayar = $this->Admin_model->detailpembayaran($id);
+        // var_dump($cartbayar);
+        // die;
+        if ($cartbayar == null) {
+            redirect('admin/Error_404');
+        } else {
+            $pembayaran = [
+                'status_pembayaran' => $this->input->post('status'),
+            ];
+            $this->db->where('id_pembayaran', $id);
+            $this->db->update('tbl_pembayaran', $pembayaran);
+            foreach ($cartbayar as $data) {
+                $pupuk = [
+                    'stok' => $data['stok'] - $data['jumlah']
+                ];
+                $this->db->where('id', $data['id_pupuk']);
+                $this->db->update('tbl_pupuk', $pupuk);
+            }
+            $this->session->set_flashdata('messageAdd', $this->messageAdd());
+            redirect('admin/pembayaran');
+        }
     }
 
     public function bank()
@@ -701,6 +717,220 @@ class Admin extends CI_Controller
         }
         $status = 'Error 500';
         echo json_encode($status);
+    }
+    public function deleteAllPetani()
+    {
+        if (isset($_POST['deleteselect'])) {
+            if (!empty($this->input->post('check_value'))) {
+                $checkpost = $this->input->post('check_value');
+                $checkid = [];
+                foreach ($checkpost as $cp) {
+                    array_push($checkid, $cp);
+                }
+                $this->load->model('Admin_model');
+                $this->Admin_model->deleteSelectPetani($checkid);
+                $this->session->set_flashdata('messageDelete', $this->messageDelete());
+                redirect('admin/dataTani');
+            } else {
+                $this->session->set_flashdata('messageNoSelect', $this->messageNoSelect());
+                redirect('admin/dataTani');
+            }
+        }
+        $status = 'Error 500';
+        echo json_encode($status);
+    }
+    public function dataTani()
+    {
+        $data['pengaturan'] = $this->db->get('tbl_pengaturan_umum')->result_array();
+        $data['user'] = $this->db->get_where('users', ['email' => $this->session->userdata('email')])->row_array();
+        $data['title'] = 'Data Petani';
+        $this->load->model('Admin_model', 'menu');
+        $data['subMenu'] = $this->menu->getSubMenu();
+        $data['akun'] = $this->db->get('users')->result_array();
+        $this->load->view('templates/header', $data);
+        $this->load->view('templates/navbar', $data);
+        $this->load->view('templates/sidebar', $data);
+        $this->load->view('admin/datatani', $data);
+        $this->load->view('templates/footer', $data);
+    }
+    public function adddatapetani()
+    {
+        $length = 9;
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $charactersLength = strlen($characters);
+        $randomString = '';
+        for ($i = 0; $i < $length; $i++) {
+            $randomString .= $characters[random_int(0, $charactersLength - 1)];
+        }
+        $data = [
+            'id_data_petani' =>  $randomString,
+            'nik_petani' => $this->input->post('nik'),
+            'nama_petani' => $this->input->post('nama'),
+            'provinsi' => $this->input->post('provinsi'),
+            'kabupaten' => $this->input->post('kabupaten'),
+            'alamat' => $this->input->post('alamat'),
+            'kk_petani' => $this->input->post('kk'),
+            'luas_lahan' => $this->input->post('luas'),
+
+        ];
+        $user = [
+            'id' => $randomString,
+            'name' => $this->input->post('nama'),
+            'telepon' => $this->input->post('telepon'),
+            'email' => $this->input->post('email'),
+            'password' => password_hash(
+                $this->input->post('password'),
+                PASSWORD_DEFAULT
+            ),
+            'image' => 'default.jpg',
+            'role_id' => 2,
+            'is_active' => 1,
+            'date_create' => date('d F Y || H:i:s')
+
+        ];
+        $upload_favicon = $_FILES['file1']['name'];
+        if ($upload_favicon) {
+            $config['allowed_types'] = 'gif|jpg|png|pdf';
+            $config['max_size']      = '9048';
+            $config['upload_path']   = './assets/template/dist/img/dokumen/';
+            $this->load->library('upload', $config);
+            if ($this->upload->do_upload('file1')) {
+                $old_image = $data['gambar']['file1'];
+                if ($old_image != 'favicon.png') {
+                    unlink(FCPATH . '/assets/template/dist/img/dokumen/' . $old_image);
+                }
+                $new_image = $this->upload->data('file_name');
+                $this->db->set('file_kk', $new_image);
+            } else {
+                echo $this->upload->display_errors();
+            }
+        }
+        $upload_favicon = $_FILES['file2']['name'];
+        if ($upload_favicon) {
+            $config['allowed_types'] = 'gif|jpg|png|pdf';
+            $config['max_size']      = '9048';
+            $config['upload_path']   = './assets/template/dist/img/dokumen/';
+            $this->load->library('upload', $config);
+            if ($this->upload->do_upload('file2')) {
+                $old_image = $data['gambar']['file2'];
+                if ($old_image != 'favicon.png') {
+                    unlink(FCPATH . '/assets/template/dist/img/dokumen/' . $old_image);
+                }
+                $new_image = $this->upload->data('file_name');
+                $this->db->set('file_ktp', $new_image);
+            } else {
+                echo $this->upload->display_errors();
+            }
+        }
+        $this->db->insert('tbl_data_petani', $data);
+        $this->db->insert('users', $user);
+        $this->session->set_flashdata('messageAdd', $this->messageAdd());
+        redirect('admin/dataTani');
+    }
+    public function editpetani()
+    {
+        $data['pengaturan'] = $this->db->get('tbl_pengaturan_umum')->result_array();
+        $data['user'] = $this->db->get_where('users', ['email' => $this->session->userdata('email')])->row_array();
+        $data['title'] = 'Data Petani';
+        $id = $this->input->get('data');
+        $this->load->model('Admin_model');
+        $data['tani'] = $this->Admin_model->datapetani($id);
+        $this->load->view('templates/header', $data);
+        $this->load->view('templates/navbar', $data);
+        $this->load->view('templates/sidebar', $data);
+        $this->load->view('admin/editdatatani', $data);
+        $this->load->view('templates/footer', $data);
+    }
+    public function updatepetani()
+    {
+        $id = $this->input->get('data');
+        $this->load->model('Admin_model');
+        $tani = $this->Admin_model->datapetani($id);
+        $data = [
+            'nik_petani' => $this->input->post('nik'),
+            'nama_petani' => $this->input->post('nama'),
+            'provinsi' => $this->input->post('provinsi'),
+            'kabupaten' => $this->input->post('kabupaten'),
+            'alamat' => $this->input->post('alamat'),
+            'kk_petani' => $this->input->post('kk'),
+            'luas_lahan' => $this->input->post('luas'),
+
+        ];
+        $user = [
+            'name' => $this->input->post('nama'),
+            'telepon' => $this->input->post('telepon'),
+            'email' => $this->input->post('email'),
+            'password' => password_hash(
+                $this->input->post('password'),
+                PASSWORD_DEFAULT
+            )
+        ];
+        $upload_favicon = $_FILES['file1']['name'];
+        if ($upload_favicon) {
+            $config['allowed_types'] = 'gif|jpg|png|pdf';
+            $config['max_size']      = '9048';
+            $config['upload_path']   = './assets/template/dist/img/dokumen/';
+            $this->load->library('upload', $config);
+            if ($this->upload->do_upload('file1')) {
+                $old_image = $data['gambar']['file1'];
+                if ($old_image != 'favicon.png') {
+                    unlink(FCPATH . '/assets/template/dist/img/dokumen/' . $old_image);
+                }
+                $new_image = $this->upload->data('file_name');
+                $this->db->set('file_kk', $new_image);
+            } else {
+                echo $this->upload->display_errors();
+            }
+        }
+        $upload_favicon = $_FILES['file2']['name'];
+        if ($upload_favicon) {
+            $config['allowed_types'] = 'gif|jpg|png|pdf';
+            $config['max_size']      = '9048';
+            $config['upload_path']   = './assets/template/dist/img/dokumen/';
+            $this->load->library('upload', $config);
+            if ($this->upload->do_upload('file2')) {
+                $old_image = $data['gambar']['file2'];
+                if ($old_image != 'favicon.png') {
+                    unlink(FCPATH . '/assets/template/dist/img/dokumen/' . $old_image);
+                }
+                $new_image = $this->upload->data('file_name');
+                $this->db->set('file_ktp', $new_image);
+            } else {
+                echo $this->upload->display_errors();
+            }
+        }
+        $this->db->where('id_data_petani', $id);
+        $this->db->update('tbl_data_petani', $data);
+
+        if ($user['passsword'] == null) {
+            $update = [
+                'name' => $this->input->post('nama'),
+                'telepon' => $this->input->post('telepon'),
+                'email' => $this->input->post('email'),
+                'password' => $tani['password'],
+            ];
+            $this->db->where('id', $id);
+            $this->db->update('users', $update);
+        } else {
+            $this->db->where('id', $id);
+            $this->db->update('users', $user);
+        }
+        $this->session->set_flashdata('messageEdit', $this->messageEdit());
+        redirect('admin/dataTani');
+    }
+    public function detailpetani()
+    {
+        $data['pengaturan'] = $this->db->get('tbl_pengaturan_umum')->result_array();
+        $data['user'] = $this->db->get_where('users', ['email' => $this->session->userdata('email')])->row_array();
+        $data['title'] = 'Data Petani';
+        $id = $this->input->get('data');
+        $this->load->model('Admin_model');
+        $data['tani'] = $this->Admin_model->datapetani($id);
+        $this->load->view('templates/header', $data);
+        $this->load->view('templates/navbar', $data);
+        $this->load->view('templates/sidebar', $data);
+        $this->load->view('admin/detailpetani', $data);
+        $this->load->view('templates/footer', $data);
     }
     // ===================================================
 }

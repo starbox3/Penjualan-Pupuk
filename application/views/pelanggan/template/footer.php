@@ -13,7 +13,7 @@
                     </ul>
                 </div>
             </div>
-            <div class="col-lg-4 col-md-6 col-sm-6 offset-lg-1">
+            <!-- <div class="col-lg-4 col-md-6 col-sm-6 offset-lg-1">
                 <div class="footer__widget">
                     <h6>Useful Links</h6>
                     <ul>
@@ -49,7 +49,7 @@
                         <a href="#"><i class="fa fa-pinterest"></i></a>
                     </div>
                 </div>
-            </div>
+            </div> -->
         </div>
     </div>
 </footer>

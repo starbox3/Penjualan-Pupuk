@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Jul 31, 2023 at 11:52 AM
+-- Generation Time: Aug 09, 2023 at 04:33 PM
 -- Server version: 5.7.33
 -- PHP Version: 7.4.19
 
@@ -46,6 +46,32 @@ INSERT INTO `tbl_bank` (`id_bank`, `nama_bank`, `nama_pemilik`, `nomor_rek`, `lo
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `tbl_data_petani`
+--
+
+CREATE TABLE `tbl_data_petani` (
+  `id_data_petani` varchar(11) NOT NULL,
+  `nama_petani` varchar(30) NOT NULL,
+  `nik_petani` varchar(16) NOT NULL,
+  `provinsi` varchar(30) NOT NULL,
+  `kabupaten` varchar(30) NOT NULL,
+  `alamat` text NOT NULL,
+  `kk_petani` varchar(30) NOT NULL,
+  `luas_lahan` varchar(10) NOT NULL,
+  `file_kk` varchar(50) NOT NULL,
+  `file_ktp` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `tbl_data_petani`
+--
+
+INSERT INTO `tbl_data_petani` (`id_data_petani`, `nama_petani`, `nik_petani`, `provinsi`, `kabupaten`, `alamat`, `kk_petani`, `luas_lahan`, `file_kk`, `file_ktp`) VALUES
+('nwBnuaue0', 'Sandhika', '1234567890123456', 'asdas', 'sdasdas', 'dasdsadas', '22222222222', '2', '1672466304894.jpg', '16724663048941.jpg');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `tbl_keranjang`
 --
 
@@ -68,7 +94,8 @@ INSERT INTO `tbl_keranjang` (`id_cart`, `id_user`, `id_pupuk`, `jumlah`, `total_
 (31, '11', '1', '2', '100010', 0, 'UHZ8w060K'),
 (32, '11', '2', '2', '100000', 0, 'fjfWaok5K'),
 (33, '11', '1', '3', '150015', 0, '4iiAUdi2O'),
-(34, '11', '2', '1', '50000', 0, '4iiAUdi2O');
+(34, '11', '2', '1', '50000', 0, '4iiAUdi2O'),
+(35, 'tVamL6H8f', '1', '3', '150015', 0, 'HbiIXWD3D');
 
 -- --------------------------------------------------------
 
@@ -93,6 +120,7 @@ CREATE TABLE `tbl_pembayaran` (
 INSERT INTO `tbl_pembayaran` (`id_pembayaran`, `nama_bank`, `nominal`, `file_bukti`, `tanggal_pembayaran`, `id_user`, `status_pembayaran`) VALUES
 ('4iiAUdi2O', 'Bank Rakyat Indonesia', '200015', 'logo.jpeg', '2023-07-30 10:12:52', '11', 1),
 ('fjfWaok5K', 'Bank Central Asia', '100000', 'c7a8c76f43671113f5f174c5c469a8ed.jpg', '2023-07-29 10:24:22', '11', 1),
+('HbiIXWD3D', 'Bank Rakyat Indonesia', '150015', '16724663048943.jpg', '2023-08-09 09:30:41', 'tVamL6H8f', 0),
 ('UHZ8w060K', 'Bank Rakyat Indonesia', '200010', '16724663048942.jpg', '2023-07-29 10:15:49', '11', 0);
 
 -- --------------------------------------------------------
@@ -139,8 +167,8 @@ CREATE TABLE `tbl_pupuk` (
 --
 
 INSERT INTO `tbl_pupuk` (`id`, `nama`, `gambar`, `jenis`, `harga`, `keterangan`, `stok`, `berat`, `deskripsi`, `informasi`) VALUES
-(1, 'Pupuk tanahs', 'images-1.jpeg', 'pupuka', '50005', 'Mauris blandit aliquet elit, eget tincidunt nibh pulvinar a. Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui. Sed porttitor lectus nibh. Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui. Proin eget tortor risus.', 205, '50', '<p>Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui.                                     Pellentesque in ipsum id orci porta dapibus. Proin eget tortor risus. Vivamus                                     suscipit tortor eget felis porttitor volutpat. Vestibulum ac diam sit amet quam                                     vehicula elementum sed sit amet dui. Donec rutrum congue leo eget malesuada.                                     Vivamus suscipit tortor eget felis porttitor volutpat. Curabitur arcu erat,                                     accumsan id imperdiet et, porttitor at sem. Praesent sapien massa, convallis a                                     pellentesque nec, egestas non nisi. Vestibulum ac diam sit amet quam vehicula                                     elementum sed sit amet dui. Vestibulum ante ipsum primis in faucibus orci luctus                                     et ultrices posuere cubilia Curae; Donec velit neque, auctor sit amet aliquam                                     vel, ullamcorper sit amet ligula. Proin eget tortor risus.</p>', '<p>Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui.                                     Pellentesque in ipsum id orci porta dapibus. Proin eget tortor risus.                                     Vivamus suscipit tortor eget felis porttitor volutpat. Vestibulum ac diam                                     sit amet quam vehicula elementum sed sit amet dui. Donec rutrum congue leo                                     eget malesuada. Vivamus suscipit tortor eget felis porttitor volutpat.                                     Curabitur arcu erat, accumsan id imperdiet et, porttitor at sem. Praesent                                     sapien massa, convallis a pellentesque nec, egestas non nisi. Vestibulum ac                                     diam sit amet quam vehicula elementum sed sit amet dui. Vestibulum ante                                     ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae;                                     Donec velit neque, auctor sit amet aliquam vel, ullamcorper sit amet ligula.                                     Proin eget tortor risus.</p>'),
-(2, 'pupuk orea', 'pupukb.png', 'pupukb', '50000', '<p><strong style=\"margin: 0px; padding: 0px; color: rgb(0, 0, 0); font-family: &quot;Open Sans&quot;, Arial, sans-serif; font-size: 14px; text-align: justify;\">Lorem Ipsum</strong><span style=\"color: rgb(0, 0, 0); font-family: &quot;Open Sans&quot;, Arial, sans-serif; font-size: 14px; text-align: justify;\">&nbsp;is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum</span><br></p>', 21, '', '<p><strong style=\"margin: 0px; padding: 0px; color: rgb(0, 0, 0); font-family: &quot;Open Sans&quot;, Arial, sans-serif; font-size: 14px; text-align: justify;\">Lorem Ipsum</strong><span style=\"color: rgb(0, 0, 0); font-family: &quot;Open Sans&quot;, Arial, sans-serif; font-size: 14px; text-align: justify;\">&nbsp;is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum</span><br></p>', '<p><strong style=\"margin: 0px; padding: 0px; color: rgb(0, 0, 0); font-family: &quot;Open Sans&quot;, Arial, sans-serif; font-size: 14px; text-align: justify;\">Lorem Ipsum</strong><span style=\"color: rgb(0, 0, 0); font-family: &quot;Open Sans&quot;, Arial, sans-serif; font-size: 14px; text-align: justify;\">&nbsp;is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum</span><br></p>');
+(1, 'Pupuk tanahs', 'images-1.jpeg', 'pupuka', '50005', 'Mauris blandit aliquet elit, eget tincidunt nibh pulvinar a. Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui. Sed porttitor lectus nibh. Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui. Proin eget tortor risus.', 17, '50', '<p>Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui.                                     Pellentesque in ipsum id orci porta dapibus. Proin eget tortor risus. Vivamus                                     suscipit tortor eget felis porttitor volutpat. Vestibulum ac diam sit amet quam                                     vehicula elementum sed sit amet dui. Donec rutrum congue leo eget malesuada.                                     Vivamus suscipit tortor eget felis porttitor volutpat. Curabitur arcu erat,                                     accumsan id imperdiet et, porttitor at sem. Praesent sapien massa, convallis a                                     pellentesque nec, egestas non nisi. Vestibulum ac diam sit amet quam vehicula                                     elementum sed sit amet dui. Vestibulum ante ipsum primis in faucibus orci luctus                                     et ultrices posuere cubilia Curae; Donec velit neque, auctor sit amet aliquam                                     vel, ullamcorper sit amet ligula. Proin eget tortor risus.</p>', '<p>Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui.                                     Pellentesque in ipsum id orci porta dapibus. Proin eget tortor risus.                                     Vivamus suscipit tortor eget felis porttitor volutpat. Vestibulum ac diam                                     sit amet quam vehicula elementum sed sit amet dui. Donec rutrum congue leo                                     eget malesuada. Vivamus suscipit tortor eget felis porttitor volutpat.                                     Curabitur arcu erat, accumsan id imperdiet et, porttitor at sem. Praesent                                     sapien massa, convallis a pellentesque nec, egestas non nisi. Vestibulum ac                                     diam sit amet quam vehicula elementum sed sit amet dui. Vestibulum ante                                     ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae;                                     Donec velit neque, auctor sit amet aliquam vel, ullamcorper sit amet ligula.                                     Proin eget tortor risus.</p>'),
+(2, 'pupuk orea', 'pupukb.png', 'pupukb', '50000', '<p><strong style=\"margin: 0px; padding: 0px; color: rgb(0, 0, 0); font-family: &quot;Open Sans&quot;, Arial, sans-serif; font-size: 14px; text-align: justify;\">Lorem Ipsum</strong><span style=\"color: rgb(0, 0, 0); font-family: &quot;Open Sans&quot;, Arial, sans-serif; font-size: 14px; text-align: justify;\">&nbsp;is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum</span><br></p>', 17, '50', '<p><strong style=\"margin: 0px; padding: 0px; color: rgb(0, 0, 0); font-family: &quot;Open Sans&quot;, Arial, sans-serif; font-size: 14px; text-align: justify;\">Lorem Ipsum</strong><span style=\"color: rgb(0, 0, 0); font-family: &quot;Open Sans&quot;, Arial, sans-serif; font-size: 14px; text-align: justify;\">&nbsp;is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum</span><br></p>', '<p><strong style=\"margin: 0px; padding: 0px; color: rgb(0, 0, 0); font-family: &quot;Open Sans&quot;, Arial, sans-serif; font-size: 14px; text-align: justify;\">Lorem Ipsum</strong><span style=\"color: rgb(0, 0, 0); font-family: &quot;Open Sans&quot;, Arial, sans-serif; font-size: 14px; text-align: justify;\">&nbsp;is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum</span><br></p>');
 
 -- --------------------------------------------------------
 
@@ -149,7 +177,7 @@ INSERT INTO `tbl_pupuk` (`id`, `nama`, `gambar`, `jenis`, `harga`, `keterangan`,
 --
 
 CREATE TABLE `users` (
-  `id` int(11) NOT NULL,
+  `id` varchar(11) NOT NULL,
   `name` varchar(50) NOT NULL,
   `telepon` varchar(20) NOT NULL,
   `email` varchar(50) NOT NULL,
@@ -167,8 +195,9 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `telepon`, `email`, `image`, `password`, `role_id`, `is_active`, `date_log`, `max_log`, `date_create`) VALUES
-(1, 'admin', '', 'admin@gmail.com', 'default.jpg', '$2y$10$R3qMtlWVC6FaYtUfhawl3uqX1Sh5IVPSSK1vsM2Ch4fQBij/z0PuW', 1, 1, 1686968216, 0, ''),
-(11, 'aries', '0822-6208-3187', 'test@gmail.com', 'default.jpg', '$2y$10$R3qMtlWVC6FaYtUfhawl3uqX1Sh5IVPSSK1vsM2Ch4fQBij/z0PuW', 2, 1, 1689753787, 0, '19 July 2023 || 08:46:48');
+('1', 'admin', '', 'admin@gmail.com', 'default.jpg', '$2y$10$R3qMtlWVC6FaYtUfhawl3uqX1Sh5IVPSSK1vsM2Ch4fQBij/z0PuW', 1, 1, 1686968216, 0, ''),
+('11', 'aries', '0822-6208-3187', 'test@gmail.com', 'default.jpg', '$2y$10$R3qMtlWVC6FaYtUfhawl3uqX1Sh5IVPSSK1vsM2Ch4fQBij/z0PuW', 2, 1, 1689753787, 0, '19 July 2023 || 08:46:48'),
+('nwBnuaue0', 'Sandhika', '0822-6208-3187', 'user1@gmail.com', 'default.jpg', '$2y$10$9nUUmrwiW3rkSIyu6Zvo2eIOJSLtujmwGrBDD28eUwrWzMgYxXJki', 2, 1, 0, 0, '09 August 2023 || 12:37:28');
 
 -- --------------------------------------------------------
 
@@ -257,7 +286,6 @@ INSERT INTO `user_sub_menu` (`id`, `menu_id`, `title`, `url`, `icon`, `is_active
 (39, 2, 'Dashboard', 'rt/index', 'nav-icon fas fa-tachometer-alt', 1),
 (57, 3, 'Pengaturan Situs', 'admin/pengaturan', 'nav-icon fas fa-cogs', 0),
 (65, 3, 'Pengguna', 'admin/user', 'nav-icon fas fa-user', 1),
-(66, 2, 'Data Penduduk', 'rt/dataPenduduk', 'nav-icon fas fa-users', 1),
 (67, 4, 'Dashboard', 'kades/index', 'nav-icon fas fa-tachometer-alt', 1),
 (68, 4, 'Surat Masuk', 'kades/suratMasuk', 'nav-icon fas fa-envelope', 1),
 (69, 4, 'Surat Keluar', 'kades/suratKeluar', 'nav-icon fas fa-reply', 1),
@@ -267,7 +295,8 @@ INSERT INTO `user_sub_menu` (`id`, `menu_id`, `title`, `url`, `icon`, `is_active
 (76, 5, 'Surat Keluar', 'sekdes/suratkeluar', 'nav-icon fas fa-reply', 1),
 (77, 1, 'Pupuk', 'admin/pupuk', 'nav-icon fas fa-solid fa-box', 1),
 (78, 1, 'Pembayaran', 'admin/pembayaran', 'nav-icon fas fa-money-bill-wave', 1),
-(79, 1, 'Bank', 'admin/bank', 'nav-icon fas fa-university', 1);
+(79, 1, 'Bank', 'admin/bank', 'nav-icon fas fa-university', 1),
+(80, 1, 'Data Petani', 'admin/dataTani', 'nav-icon fas fa-users', 1);
 
 -- --------------------------------------------------------
 
@@ -307,6 +336,12 @@ INSERT INTO `user_token` (`id`, `email`, `token`, `date_created`) VALUES
 --
 ALTER TABLE `tbl_bank`
   ADD PRIMARY KEY (`id_bank`);
+
+--
+-- Indexes for table `tbl_data_petani`
+--
+ALTER TABLE `tbl_data_petani`
+  ADD PRIMARY KEY (`id_data_petani`);
 
 --
 -- Indexes for table `tbl_keranjang`
@@ -382,7 +417,7 @@ ALTER TABLE `tbl_bank`
 -- AUTO_INCREMENT for table `tbl_keranjang`
 --
 ALTER TABLE `tbl_keranjang`
-  MODIFY `id_cart` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+  MODIFY `id_cart` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 
 --
 -- AUTO_INCREMENT for table `tbl_pengaturan_umum`
@@ -395,12 +430,6 @@ ALTER TABLE `tbl_pengaturan_umum`
 --
 ALTER TABLE `tbl_pupuk`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
---
--- AUTO_INCREMENT for table `users`
---
-ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `user_access_menu`
@@ -424,7 +453,7 @@ ALTER TABLE `user_role`
 -- AUTO_INCREMENT for table `user_sub_menu`
 --
 ALTER TABLE `user_sub_menu`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=80;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=81;
 
 --
 -- AUTO_INCREMENT for table `user_token`

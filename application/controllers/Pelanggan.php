@@ -142,7 +142,7 @@ class Pelanggan extends CI_Controller
         $data['totalcart'] = $this->Pelanggan_model->totalcart($user);
         $data['totalbayar'] = $this->Pelanggan_model->totalbayar($user);
         $this->load->view('pelanggan/template/header', $data);
-        $this->load->view('pelanggan/uploadPembayaran', $data);
+        $this->load->view('pelanggan/uploadpembayaran', $data);
         $this->load->view('pelanggan/template/footer', $data);
     }
     public function upload()
