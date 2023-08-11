@@ -68,14 +68,8 @@
 <script>
   <?= $this->session->flashdata('messageEdit'); ?>
   <?= $this->session->flashdata('messageAdd'); ?>
-  <?= $this->session->flashdata('messageApiError'); ?>
-  <?= $this->session->flashdata('messageApiSucces'); ?>
-  <?= $this->session->flashdata('messageSendwa'); ?>
   <?= $this->session->flashdata('messageDelete'); ?>
-  <?= $this->session->flashdata('messagePasswordSalah'); ?>
-  <?= $this->session->flashdata('messagePasswordTidakSama'); ?>
   <?= $this->session->flashdata('messageNoSelect'); ?>
-  <?= $this->session->flashdata('messageErrorExcel'); ?>
   <?= $this->session->flashdata('messageIdSama'); ?>
 </script>
 <script>
