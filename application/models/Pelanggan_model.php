@@ -56,4 +56,12 @@ class Pelanggan_model extends CI_Model
         AND `tbl_keranjang`.`id_pupuk`= $detail";
         return $this->db->query($query)->num_rows();
     }
+    public function datapetani($user)
+    {
+        $query = "SELECT `tbl_data_petani`.*,`users`.*
+        FROM `tbl_data_petani` JOIN `users`
+        ON `tbl_data_petani`.`id_data_petani` = `users`.`id`
+        WHERE `tbl_data_petani`.`id_data_petani` = '$user'";
+        return $this->db->query($query)->row_array();
+    }
 }

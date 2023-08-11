@@ -54,7 +54,7 @@
                             <div class="col-sm-4">
                                 <div class="form-group">
                                     <label> Luas Lahan</label>
-                                    <input type="number" class="form-control" name="luas" placeholder="Luas Lahan" required value="<?= $tani['luas_lahan'] ?>">
+                                    <input type="text" class="form-control" name="luas" placeholder="Luas Lahan" value="<?= $tani['luas_lahan'] ?>">
                                 </div>
                             </div>
                             <div class="col-sm-4">

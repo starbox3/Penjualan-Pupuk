@@ -16,15 +16,17 @@
                     ?>
                     <div class="product__details__price"><?= $harga ?></div>
                     <p><?= $pupuk['keterangan'] ?></p>
+
                     <form action="<?= base_url('pelanggan/addcart?pupuk=' . $pupuk['id']) ?>" method="POST">
+                        <h6 class="mb-1" style="color:red;">*Maksimum anda dapat membeli <?= $max; ?> karung pupuk</h6>
                         <div class="product__details__quantity">
                             <div class="quantity">
                                 <div class="pro-qty">
-                                    <input type="text" value="1" name="jumlah">
+                                    <input type="text" value="1" name="jumlah" id="input_field" onkeyup="myFunction(this)">
                                 </div>
                             </div>
                         </div>
-                        <button type="submit" class="primary-btn">Beli Sekarang</button>
+                        <button type="submit" id="bttnsubmit" class="primary-btn">Beli Sekarang</button>
                     </form>
                     <ul>
                         <li><b>Stok</b> <span><?= $pupuk['stok'] ?></span></li>

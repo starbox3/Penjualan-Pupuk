@@ -7,7 +7,7 @@
     <meta name="keywords" content="Ogani, unica, creative, html">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Pupuk Organik</title>
+    <title>SIP PPK</title>
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap" rel="stylesheet">
     <!-- Css Styles -->
@@ -31,7 +31,7 @@
     <div class="humberger__menu__overlay"></div>
     <div class="humberger__menu__wrapper">
         <div class="humberger__menu__logo">
-            <a href="#"><img src="<?= base_url('assets/produk/') ?>img/logo.png" alt=""></a>
+            <a href="#"><img src="<?= base_url('assets/produk/') ?>img/logo1.png" alt=""></a>
         </div>
         <div class="humberger__menu__cart">
             <ul>
@@ -52,7 +52,7 @@
             <div class="row">
                 <div class="col-lg-3">
                     <div class="header__logo">
-                        <a href="<?= base_url('pupuk') ?>"><img src="<?= base_url('assets/produk/') ?>img/logo.png" alt=""></a>
+                        <a href="<?= base_url('pupuk') ?>"><img src="<?= base_url('assets/produk/') ?>img/logo1.png" alt=""></a>
                     </div>
                 </div>
                 <div class="col-lg-6">

@@ -54,7 +54,7 @@
                         </tbody>
                     </table>
                     <?php if ($riwayatbayar == null) {
-                        $kosong = '<h5 class="text-center">Keranjang Masih Kosong</h5>';
+                        $kosong = '<h5 class="text-center">Tidak Ada Riwayat Pembelian</h5>';
                         $bayar = '';
                     } else {
                         $kosong = '';

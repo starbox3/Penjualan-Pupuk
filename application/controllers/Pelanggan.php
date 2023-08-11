@@ -1,6 +1,7 @@
 <?php
 
 use PhpOffice\PhpSpreadsheet\Chart\Title;
+use PhpOffice\PhpSpreadsheet\Worksheet\Row;
 
 defined('BASEPATH') or exit('No direct script access allowed');
 
@@ -33,13 +34,12 @@ class Pelanggan extends CI_Controller
         $detail = $this->input->get('pupuk');
         $data['title'] = 'null';
         $data['pupuk'] = $this->db->get_where('tbl_pupuk', ['id' => $detail])->row_array();
-        // var_dump($data['pupuk']);
-        // die;
         $user = $data['user']['id'];
         $this->load->model('Pelanggan_model');
         $data['cart'] = $this->Pelanggan_model->cart($user);
         $data['totalcart'] = $this->Pelanggan_model->totalcart($user);
-
+        $data['tani'] = $this->Pelanggan_model->datapetani($user);
+        $data['max'] = $data['tani']['luas_lahan'] / 0.125;
         $this->load->view('pelanggan/template/header', $data);
         $this->load->view('pelanggan/detail', $data);
         $this->load->view('pelanggan/template/footer', $data);
@@ -52,37 +52,51 @@ class Pelanggan extends CI_Controller
         $this->load->model('Pelanggan_model');
         $detail = $this->input->get('pupuk');
         $cart = $this->Pelanggan_model->sama($user, $detail);
-        $id = $this->db->get_where('tbl_keranjang', ['id_user' => $user, 'id_pupuk' => $detail, 'status_keranjang' => 1])->row_array();
+        $data['tani'] = $this->Pelanggan_model->datapetani($user);
 
+        $id = $this->db->get_where('tbl_keranjang', ['id_user' => $user, 'id_pupuk' => $detail, 'status_keranjang' => 1])->row_array();
         $data['pupuk'] = $this->db->get_where('tbl_pupuk', ['id' => $detail])->row_array();
+        $data['max'] = $data['tani']['luas_lahan'] / 0.125;
+        // var_dump(round($up));
+        // die;
         $jumlah = $this->input->post('jumlah');
         if ($cart == 1) {
-            $jumlahbarang = $id['jumlah'] + $jumlah;
-            // var_dump($data['pupuk']['harga']);
-            // die;
-            $update = [
-                'jumlah' => $id['jumlah'] + $jumlah,
-                'total_harga' =>  $data['pupuk']['harga'] * $jumlahbarang
-            ];
             $this->db->where('id_cart', $id['id_cart']);
-            $this->db->update('tbl_keranjang', $update);
-            redirect('pelanggan/cart');
+            $this->db->delete('tbl_keranjang');
+            if ($jumlah <= round($data['max'])) {
+                $cart = [
+                    'id_user' => $data['user']['id'],
+                    'id_pupuk' => $this->input->get('pupuk'),
+                    'jumlah' => $jumlah,
+                    'total_harga' => $data['pupuk']['harga'] * $jumlah,
+                    'status_keranjang' => 1,
+                ];
+                $this->db->insert('tbl_keranjang', $cart);
+                redirect('pelanggan/cart');
+            }
+            if ($jumlah >= round($data['max'])) {
+                redirect('pelanggan/detail?pupuk=' . $detail);
+            }
         } else {
-            $cart = [
-                'id_user' => $data['user']['id'],
-                'id_pupuk' => $this->input->get('pupuk'),
-                'jumlah' => $jumlah,
-                'total_harga' => $data['pupuk']['harga'] * $jumlah,
-                'status_keranjang' => 1,
-            ];
-            $this->db->insert('tbl_keranjang', $cart);
-            redirect('pelanggan/cart');
+            if ($jumlah <= round($data['max'])) {
+                $cart = [
+                    'id_user' => $data['user']['id'],
+                    'id_pupuk' => $this->input->get('pupuk'),
+                    'jumlah' => $jumlah,
+                    'total_harga' => $data['pupuk']['harga'] * $jumlah,
+                    'status_keranjang' => 1,
+                ];
+                $this->db->insert('tbl_keranjang', $cart);
+                redirect('pelanggan/cart');
+            }
+            if ($jumlah >= round($data['max'])) {
+                redirect('pelanggan/detail?pupuk=' . $detail);
+            }
         }
     }
     public function updatecart()
     {
         $id_cart = $this->input->post('cartId');
-        // $result = $this->db->get_where('tbl_cart', ['id_cart' => $id_cart])->row_array();
         $this->db->where('id_cart', $id_cart);
         $this->db->delete('tbl_keranjang');
     }
@@ -95,8 +109,6 @@ class Pelanggan extends CI_Controller
         $data['title'] = 'null';
         $data['cart'] = $this->Pelanggan_model->cart($user);
         $data['totalbayar'] = $this->Pelanggan_model->totalbayar($user);
-        // var_dump($data['totalbayar']);
-        // die;
         $data['totalcart'] = $this->Pelanggan_model->totalcart($user);
         $this->load->view('pelanggan/template/header', $data);
         $this->load->view('pelanggan/cart', $data);
@@ -187,8 +199,6 @@ class Pelanggan extends CI_Controller
                     echo $this->upload->display_errors();
                 }
             }
-            // var_dump($new_image);
-            // die;
             $this->db->insert('tbl_pembayaran', $databayar);
             $cart = [
                 'status_keranjang' => 0,
@@ -210,11 +220,7 @@ class Pelanggan extends CI_Controller
         $data['title'] = 'Riwayat';
         $data['cart'] = $this->Pelanggan_model->cart($user);
         $data['totalbayar'] = $this->Pelanggan_model->totalbayar($user);
-        // var_dump($data['totalbayar']);
-        // die;
         $data['riwayatbayar'] = $this->Pelanggan_model->riwayatpembelian($user);
-        // var_dump($data['riwayatbayar']);
-        // die;
         $data['totalcart'] = $this->Pelanggan_model->totalcart($user);
         $this->load->view('pelanggan/template/header', $data);
         $this->load->view('pelanggan/riwayatpembelian', $data);

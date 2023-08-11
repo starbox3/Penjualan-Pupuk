@@ -508,7 +508,7 @@ class Admin extends CI_Controller
         $data['user'] = $this->db->get_where('users', ['email' => $this->session->userdata('email')])->row_array();
         $data['title'] = 'Pupuk';
         $id = $this->input->get('pupuk');
-        $data['pupuk'] = $this->db->get('tbl_pupuk', ['id' => $id])->row_array();
+        $data['pupuk'] = $this->db->get_where('tbl_pupuk', ['id' => $id])->row_array();
         // var_dump($data['pupuk']);
         // die;
         $this->load->view('templates/header', $data);
