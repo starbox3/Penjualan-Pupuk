@@ -6,7 +6,7 @@
                     <span class="info-box-icon bg-info elevation-1"><i class="fas fa-server"></i></span>
                     <div class="info-box-content">
                         <span class="info-box-text">Aplikasi</span>
-                        <span class="info-box-number">Penjualan Pupuk</span>
+                        <span class="info-box-number">Pembelian Pupuk</span>
                     </div>
                 </div>
             </div>

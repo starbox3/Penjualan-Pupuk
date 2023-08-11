@@ -1,7 +1,7 @@
 </div>
 <!-- /.content-wrapper -->
 <footer class="main-footer">
-  <strong>Penjualan Pupuk</strong>
+  <strong>Sistem Informasi Pembelian Pupuk</strong>
   <div class="float-right d-none d-sm-inline-block">
 
   </div>
