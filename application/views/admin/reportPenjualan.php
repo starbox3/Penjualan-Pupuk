@@ -135,7 +135,7 @@ $totalHarga = $this->db->query($query1)->row_array();
             <td align="center">
                 <span style="line-height: 1.2; font-weight: bold; font-family:coopbl; font-size: 20px">
                     SISTEM INFORMASI PENJUALAN PUPUK
-                    <br>KECAMATAN TRIMURJO
+                    <br>KELOMPOK MEKAR TANI
                     <br>PURWODADI
                     <br>
                 </span>
@@ -220,7 +220,7 @@ $totalHarga = $this->db->query($query1)->row_array();
             <td rowspan="4" width="65%"></td>
             <td>
                 <p>Purwodadi, <?= $tanggal; ?></p>
-                <p>Bendahara.</p>
+                <p>Ketua.</p>
             </td>
         </tr>
         <tr>
@@ -230,7 +230,7 @@ $totalHarga = $this->db->query($query1)->row_array();
             <td>&nbsp;</td>
         </tr>
         <tr>
-            <td><span><b>Nama</b></span></td>
+            <td><span><b>Agus Supriadai St.</b></span></td>
         </tr>
     </table>
 
