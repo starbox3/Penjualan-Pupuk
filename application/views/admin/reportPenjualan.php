@@ -135,7 +135,7 @@ $totalHarga = $this->db->query($query1)->row_array();
             <td align="center">
                 <span style="line-height: 1.2; font-weight: bold; font-family:coopbl; font-size: 20px">
                     SISTEM INFORMASI PENJUALAN PUPUK
-                    <br>KELOMPOK MEKAR TANI
+                    <br>KELOMPOK TANI MEKAR TANI
                     <br>PURWODADI
                     <br>
                 </span>
@@ -230,7 +230,7 @@ $totalHarga = $this->db->query($query1)->row_array();
             <td>&nbsp;</td>
         </tr>
         <tr>
-            <td><span><b>Agus Supriadai St.</b></span></td>
+            <td><span><b>Agus Supriadi S.T</b></span></td>
         </tr>
     </table>
 
