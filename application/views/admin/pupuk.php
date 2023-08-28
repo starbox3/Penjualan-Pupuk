@@ -9,17 +9,17 @@
                         <button type="submit" class="btn btn-danger btn-sm mb-1" name="deleteselect"><i class="fas fa-trash"></i> Hapus</button>
                     </div>
                     <hr>
-                    <table id="example2" class="table table-bordered table-striped">
+                    <table id="example2" class="table table-bordered table-responsive table-hover table-striped text-nowrap">
                         <thead>
                             <tr class="text-center">
                                 <th>
-                                    <input type="checkbox" onchange="selectAll(this)">
+                                    Ceklis <input type="checkbox" onchange="selectAll(this)">
                                 </th>
-                                <th>Nama</th>
-                                <th>Jenis</th>
+                                <th style="width: 300px;">Nama</th>
+                                <th style="width: 300px;">Jenis</th>
                                 <th>Gambar</th>
-                                <th>Stok</th>
-                                <th>Harga</th>
+                                <th style="width: 300px;">Stok</th>
+                                <th style="width: 200px;">Harga</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
@@ -31,7 +31,10 @@
                                     <td class=" py-1 align-middle"><?= $data['jenis']; ?></td>
                                     <td class=" py-1 align-middle text-center"><img width="100px" height="100px" src="<?= base_url('assets/template/dist/img/pupuk/' . $data['gambar']) ?>" alt="pupuk"></td>
                                     <td class=" py-1 align-middle text-center"><?= $data['stok']; ?></td>
-                                    <td class="py-1 align-middle text-center"><?= $data['harga']; ?></td>
+                                    <?php
+                                    $harga = "Rp. " . number_format($data['harga'], 0, ".", ".");
+                                    ?>
+                                    <td class="py-1 align-middle text-center"><?= $harga; ?></td>
                                     <td class="text-center py-1 align-middle">
                                         <div class="btn-group btn-group-sm">
                                             <a href="<?= site_url('admin/editPupuk?pupuk=' . $data['id']) ?>" class="btn btn-info btn-sm"><i class="fas fa-edit"></i></a>

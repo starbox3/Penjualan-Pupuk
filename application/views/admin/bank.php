@@ -13,7 +13,7 @@
                         <thead>
                             <tr class="text-center">
                                 <th>
-                                    <input type="checkbox" onchange="selectAll(this)">
+                                    Ceklis <input type="checkbox" onchange="selectAll(this)">
                                 </th>
                                 <th>Logo</th>
                                 <th>Nama Bank</th>

@@ -128,7 +128,7 @@
       "ordering": false,
       "info": false,
       "autoWidth": false,
-      "responsive": true,
+      "responsive": false,
     });
     $("input[data-bootstrap-switch]").each(function() {
       $(this).bootstrapSwitch('state', $(this).prop('checked'));

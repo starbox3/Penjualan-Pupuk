@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Aug 09, 2023 at 04:33 PM
--- Server version: 5.7.33
--- PHP Version: 7.4.19
+-- Generation Time: Aug 13, 2023 at 11:46 PM
+-- Server version: 10.6.14-MariaDB-cll-lve-log
+-- PHP Version: 8.1.16
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `pupuk`
+-- Database: `ariesism_pupuk`
 --
 
 -- --------------------------------------------------------
@@ -33,7 +33,7 @@ CREATE TABLE `tbl_bank` (
   `nama_pemilik` varchar(30) NOT NULL,
   `nomor_rek` varchar(30) NOT NULL,
   `logo` varchar(30) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `tbl_bank`
@@ -60,14 +60,15 @@ CREATE TABLE `tbl_data_petani` (
   `luas_lahan` varchar(10) NOT NULL,
   `file_kk` varchar(50) NOT NULL,
   `file_ktp` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `tbl_data_petani`
 --
 
 INSERT INTO `tbl_data_petani` (`id_data_petani`, `nama_petani`, `nik_petani`, `provinsi`, `kabupaten`, `alamat`, `kk_petani`, `luas_lahan`, `file_kk`, `file_ktp`) VALUES
-('nwBnuaue0', 'Sandhika', '1234567890123456', 'asdas', 'sdasdas', 'dasdsadas', '22222222222', '2', '1672466304894.jpg', '16724663048941.jpg');
+('kDsXiEgL8', 'Khoirul anam', '123', 'Lampung', 'Lamteng', 'Purwodadi', '123', '1', 'Screenshot_2023-08-10-23-46-40-030_com_instagram_a', 'Screenshot_2023-08-10-23-46-40-030_com_instagram_a'),
+('nwBnuaue0', 'Sandhika', '1234567890123456', 'asdas', 'sdasdas', 'dasdsadas', '22222222222', '0.375', 'pupukb.png', 'pupukb1.png');
 
 -- --------------------------------------------------------
 
@@ -83,19 +84,7 @@ CREATE TABLE `tbl_keranjang` (
   `total_harga` varchar(40) NOT NULL,
   `status_keranjang` int(11) NOT NULL,
   `id_pembayaran` varchar(10) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `tbl_keranjang`
---
-
-INSERT INTO `tbl_keranjang` (`id_cart`, `id_user`, `id_pupuk`, `jumlah`, `total_harga`, `status_keranjang`, `id_pembayaran`) VALUES
-(30, '11', '2', '2', '100000', 0, 'UHZ8w060K'),
-(31, '11', '1', '2', '100010', 0, 'UHZ8w060K'),
-(32, '11', '2', '2', '100000', 0, 'fjfWaok5K'),
-(33, '11', '1', '3', '150015', 0, '4iiAUdi2O'),
-(34, '11', '2', '1', '50000', 0, '4iiAUdi2O'),
-(35, 'tVamL6H8f', '1', '3', '150015', 0, 'HbiIXWD3D');
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 -- --------------------------------------------------------
 
@@ -111,17 +100,7 @@ CREATE TABLE `tbl_pembayaran` (
   `tanggal_pembayaran` varchar(30) NOT NULL,
   `id_user` varchar(10) NOT NULL,
   `status_pembayaran` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `tbl_pembayaran`
---
-
-INSERT INTO `tbl_pembayaran` (`id_pembayaran`, `nama_bank`, `nominal`, `file_bukti`, `tanggal_pembayaran`, `id_user`, `status_pembayaran`) VALUES
-('4iiAUdi2O', 'Bank Rakyat Indonesia', '200015', 'logo.jpeg', '2023-07-30 10:12:52', '11', 1),
-('fjfWaok5K', 'Bank Central Asia', '100000', 'c7a8c76f43671113f5f174c5c469a8ed.jpg', '2023-07-29 10:24:22', '11', 1),
-('HbiIXWD3D', 'Bank Rakyat Indonesia', '150015', '16724663048943.jpg', '2023-08-09 09:30:41', 'tVamL6H8f', 0),
-('UHZ8w060K', 'Bank Rakyat Indonesia', '200010', '16724663048942.jpg', '2023-07-29 10:15:49', '11', 0);
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 -- --------------------------------------------------------
 
@@ -134,14 +113,14 @@ CREATE TABLE `tbl_pengaturan_umum` (
   `namaweb` varchar(128) NOT NULL,
   `favicon` varchar(128) NOT NULL,
   `logo` varchar(128) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `tbl_pengaturan_umum`
 --
 
 INSERT INTO `tbl_pengaturan_umum` (`id`, `namaweb`, `favicon`, `logo`) VALUES
-(1, 'Penjualan Pupuk', 'images-1.jpeg', 'Start-Up.png');
+(1, 'SIP PPK', 'images-1.jpeg', 'Start-Up.png');
 
 -- --------------------------------------------------------
 
@@ -160,15 +139,15 @@ CREATE TABLE `tbl_pupuk` (
   `berat` varchar(5) NOT NULL,
   `deskripsi` text NOT NULL,
   `informasi` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `tbl_pupuk`
 --
 
 INSERT INTO `tbl_pupuk` (`id`, `nama`, `gambar`, `jenis`, `harga`, `keterangan`, `stok`, `berat`, `deskripsi`, `informasi`) VALUES
-(1, 'Pupuk tanahs', 'images-1.jpeg', 'pupuka', '50005', 'Mauris blandit aliquet elit, eget tincidunt nibh pulvinar a. Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui. Sed porttitor lectus nibh. Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui. Proin eget tortor risus.', 17, '50', '<p>Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui.                                     Pellentesque in ipsum id orci porta dapibus. Proin eget tortor risus. Vivamus                                     suscipit tortor eget felis porttitor volutpat. Vestibulum ac diam sit amet quam                                     vehicula elementum sed sit amet dui. Donec rutrum congue leo eget malesuada.                                     Vivamus suscipit tortor eget felis porttitor volutpat. Curabitur arcu erat,                                     accumsan id imperdiet et, porttitor at sem. Praesent sapien massa, convallis a                                     pellentesque nec, egestas non nisi. Vestibulum ac diam sit amet quam vehicula                                     elementum sed sit amet dui. Vestibulum ante ipsum primis in faucibus orci luctus                                     et ultrices posuere cubilia Curae; Donec velit neque, auctor sit amet aliquam                                     vel, ullamcorper sit amet ligula. Proin eget tortor risus.</p>', '<p>Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui.                                     Pellentesque in ipsum id orci porta dapibus. Proin eget tortor risus.                                     Vivamus suscipit tortor eget felis porttitor volutpat. Vestibulum ac diam                                     sit amet quam vehicula elementum sed sit amet dui. Donec rutrum congue leo                                     eget malesuada. Vivamus suscipit tortor eget felis porttitor volutpat.                                     Curabitur arcu erat, accumsan id imperdiet et, porttitor at sem. Praesent                                     sapien massa, convallis a pellentesque nec, egestas non nisi. Vestibulum ac                                     diam sit amet quam vehicula elementum sed sit amet dui. Vestibulum ante                                     ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae;                                     Donec velit neque, auctor sit amet aliquam vel, ullamcorper sit amet ligula.                                     Proin eget tortor risus.</p>'),
-(2, 'pupuk orea', 'pupukb.png', 'pupukb', '50000', '<p><strong style=\"margin: 0px; padding: 0px; color: rgb(0, 0, 0); font-family: &quot;Open Sans&quot;, Arial, sans-serif; font-size: 14px; text-align: justify;\">Lorem Ipsum</strong><span style=\"color: rgb(0, 0, 0); font-family: &quot;Open Sans&quot;, Arial, sans-serif; font-size: 14px; text-align: justify;\">&nbsp;is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum</span><br></p>', 17, '50', '<p><strong style=\"margin: 0px; padding: 0px; color: rgb(0, 0, 0); font-family: &quot;Open Sans&quot;, Arial, sans-serif; font-size: 14px; text-align: justify;\">Lorem Ipsum</strong><span style=\"color: rgb(0, 0, 0); font-family: &quot;Open Sans&quot;, Arial, sans-serif; font-size: 14px; text-align: justify;\">&nbsp;is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum</span><br></p>', '<p><strong style=\"margin: 0px; padding: 0px; color: rgb(0, 0, 0); font-family: &quot;Open Sans&quot;, Arial, sans-serif; font-size: 14px; text-align: justify;\">Lorem Ipsum</strong><span style=\"color: rgb(0, 0, 0); font-family: &quot;Open Sans&quot;, Arial, sans-serif; font-size: 14px; text-align: justify;\">&nbsp;is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum</span><br></p>');
+(1, 'Pupuk Urea', 'images-1.jpeg', 'pupuka', '112500', 'Pupuk kimia mengandung Nitrogen (N) berkadar tinggi yang berbentuk prill mengandung zat hara yang sangat diperlukan tanaman. Pupuk urea dengan rumus kimia NH2 CONH2 merupakan pupuk yang mudah larut dalam air dan sifatnya sangat mudah menghisap air (higroskopis).<br>', 17, '50', '<h6 style=\"-webkit-font-smoothing: antialiased; outline: none; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; padding: 0px; font-family: \"><span style=\"font-family: \" source=\"\" sans=\"\" pro\";\"=\"\">Ciri-ciri pupuk Urea:</span></h6><ul><li style=\"text-align: left; -webkit-font-smoothing: antialiased; outline: none; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; padding: 0px;\"><span style=\"font-family: \" source=\"\" sans=\"\" pro\";\"=\"\">Berbentuk butir-butir Kristal berwarna putih (Prilled)</span></li><li style=\"text-align: left; -webkit-font-smoothing: antialiased; outline: none; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; padding: 0px;\"><span style=\"font-family: \" source=\"\" sans=\"\" pro\";\"=\"\">Memiliki rumus kimia NH2 CONH2.</span></li><li style=\"text-align: left; -webkit-font-smoothing: antialiased; outline: none; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; padding: 0px;\"><span style=\"font-family: \" source=\"\" sans=\"\" pro\";\"=\"\">Mudah larut dalam air dan sifatnya sangat mudah menghisap air (higroskopis).</span></li><li style=\"text-align: left; -webkit-font-smoothing: antialiased; outline: none; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; padding: 0px;\"><span style=\"font-family: \" source=\"\" sans=\"\" pro\";\"=\"\">Standar SNI 2801:2010</span></li><li style=\"text-align: left; -webkit-font-smoothing: antialiased; outline: none; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; padding: 0px;\"><span style=\"font-family: \" source=\"\" sans=\"\" pro\";\"=\"\">Kandungan Nitrogen : 46,00 % Minimum</span></li><li style=\"text-align: left; -webkit-font-smoothing: antialiased; outline: none; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; padding: 0px;\"><span style=\"font-family: \" source=\"\" sans=\"\" pro\";\"=\"\">Kandungan Biuret : 1,0 % Maximum</span></li><li style=\"text-align: left; -webkit-font-smoothing: antialiased; outline: none; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; padding: 0px;\"><span style=\"font-family: \" source=\"\" sans=\"\" pro\";\"=\"\">Kandungan Moisture : 0,5 % Maximum</span></li></ul><p style=\"text-align: left; -webkit-font-smoothing: antialiased; outline: none; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; padding: 0px;\"><span style=\"font-family: \" source=\"\" sans=\"\" pro\";\"=\"\"><br></span></p><h6 style=\"-webkit-font-smoothing: antialiased; outline: none; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; padding: 0px; font-family: \"><span style=\"font-family: \" source=\"\" sans=\"\" pro\";\"=\"\">Unsur hara Nitrogen dikandung dalam pupuk urea sangat besar kegunaannya bagi tanaman untuk pertumbuhan dan perkembangan, diantaranya :</span></h6><ul><li style=\"-webkit-font-smoothing: antialiased; outline: none; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; padding: 0px;\"><span style=\"font-family: \" source=\"\" sans=\"\" pro\";\"=\"\">Membuat daun tanaman lebih hijau segar dan banyak mengandung butir hijau daun (chlorophyl) yang mempunyai peranan sangat penting dalam proses fotosintesa.</span></li><li style=\"-webkit-font-smoothing: antialiased; outline: none; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; padding: 0px;\"><span style=\"font-family: \" source=\"\" sans=\"\" pro\";\"=\"\">Mempercepat pertumbuhan tanaman (tinggi, jumlah anakan, cabang dan lain-lain)</span></li><li style=\"-webkit-font-smoothing: antialiased; outline: none; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; padding: 0px;\"><span style=\"font-family: \" source=\"\" sans=\"\" pro\";\"=\"\">Menambah kandungan protein tanaman</span></li><li style=\"-webkit-font-smoothing: antialiased; outline: none; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; padding: 0px;\"><span style=\"font-family: \" source=\"\" sans=\"\" pro\";\"=\"\">Dapat dipakai untuk semua jenis tanaman baik tanaman pangan, holtikultura, tanaman perkebunan.</span></li><li style=\"-webkit-font-smoothing: antialiased; outline: none; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; padding: 0px;\"><span style=\"font-family: \" source=\"\" sans=\"\" pro\";\"=\"\">Dengan pemupukan yang tepat & benar (berimbang) secara teratur, tanaman akan tumbuh segar, sehat dan memberikan hasil yang berlipat ganda dan tidak merusak struktur tanah.</span></li></ul><p style=\"-webkit-font-smoothing: antialiased; outline: none; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; padding: 0px;\"><span style=\"font-family: \" source=\"\" sans=\"\" pro\";\"=\"\"><br></span></p><p style=\"-webkit-font-smoothing: antialiased; outline: none; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; padding: 0px; font-family: \" maven=\"\" pro\",=\"\" sans-serif;=\"\" background-color:=\"\" rgb(241,=\"\" 243,=\"\" 247);\"=\"\"><span style=\"font-family: \" source=\"\" sans=\"\" pro\";\"=\"\">Dalam rangka pengamanan dan menghindari penyalahgunaan oleh pihak yang tidak bertanggung jawab untuk Penyaluran Pupuk Bersubsidi, maka dilakukan perubahan pupuk urea berwarna PUTIH menjadi pupuk urea berwarna PINK (merah muda). Pupuk urea pink tidak mengubah komposisi dan kandungannya, pupuk urea pink tetap aman gunakan, ramah lingkungan dan tidak meracuni tanaman. Adapun bahan pewarna yang digunakan terbuat dari bahan kimia organik yang tidak berbahaya bagi tanaman karena larut dalam air.</span></p>', '<ul><li><b>Memperhatikan waktu pengaplikasiannya</b></li></ul><div>Waktu pengaplikasian pupuk urea tidak bisa sembarangan, sebab pupuk urea disarankan untuk diaplikasikan ketika suhu sedang dingin di pagi atau sore hari. Apabila suhunya terlalu dingin, maka tanah dapat membeku dan penyerapan pupuk urea pun menjadi lebih sulit. Akan tetapi, jika suhu terlalu tinggi, pupuk urea dapat menguap dan tidak akan diserap maksimal oleh tanaman.</div><div><br></div><ul><li><b>Menyiram tanaman sebelum diberi pupuk</b></li></ul><div>Sebelum mengaplikasikan pupuk urea, tanaman harus disiram lebih dulu. Penyiraman tanaman ini diperlukan agar dapat membantu pupuk urea lebih cepat dan mudah menyerap di dalam tanah.</div><div><br></div><ul><li><b>Membuat lubang untuk pemupukan</b></li></ul><div>Hal penting lainnya agar tanaman dapat menyerap pupuk urea dengan maksimal adalah dengan membuat lubang pemupukan. Lubang pemupukan ini dibuat di dekat dengan akar tanaman. Hal ini bertujuan agar pupuk lebih cepat diserap oleh akar.</div><div><br></div><ul><li><b>Menaburkan pupuk urea</b></li></ul><div>Setelah lubang pemupukan dibuat, maka langkah selanjutnya dalam pengaplikasinya pupuk adalah menaburkan pupuk urea. Pupuk urea ditaburkan untuk memastikan bahwa dosis yang diberikan pada tanaman tepat dan sesuai. Karena memberikan dosis pupuk urea yang berlebihan akan mempengaruhi produktivitas dari tanaman tersebut.</div><div><br></div><ul><li><b>Menutup lubang pemupukan</b></li></ul><div>Seperti yang telah dijelaskan sebelumnya, bahwa pupuk urea lebih mudah mengalami penguapan. Oleh karena itu, untuk mencegah pupuk menguap maka Grameds bisa menutup lubang pemupukan. Dengan begitu, maka tanaman dapat menyerap nitrogen dan unsur yang ada dalam pupuk urea lebih cepat.</div><div>Selain pupuk urea, ada beberapa jenis pupuk lainnya yang memiliki kandungan nitrogen. Akan tetapi, penggunaan pupuk urea untuk menambahkan unsur nitrogen memang lebih populer.</div><div>Demikianlah penjelasan mengenai pupuk urea adalah salah satu jenis pupuk yang memiliki kandungan nitrogen cukup tinggi.  Semoga semua pembahasan di atas bermanfaat untuk kamu. Grameds bisa menambah wawasan tentang tumbuhan, pertanian lainnya dengan membaca buku.</div>'),
+(2, 'Pupuk Phonska', 'pupukb.png', 'pupukb', '115000', '<p><font color=\"#000000\">Pupuk phonska diperkaya dengan Sulfur (S) untuk meningkatkan kualitas dan daya simpan hasil panen, serta diperkaya Zink (Zn) untuk mengoptimalkan pembentukan bunga dan memperbanyak buah.</font><br></p>', 17, '50', '<p><span style=\"color: rgb(33, 33, 33); font-family: \" open=\"\" sauce=\"\" one\",=\"\" sans-serif;=\"\" font-size:=\"\" 14px;\"=\"\"><b>Kandungan dlm pupuk phonska :</b></span></p><ul><li><span style=\"font-size: 1rem;\">Nitrogen(N) 15 %</span></li><li><span style=\"color: rgb(33, 33, 33); font-family: \" open=\"\" sauce=\"\" one\",=\"\" sans-serif;=\"\" font-size:=\"\" 14px;\"=\"\">Phosphat(P)15 %</span></li><li><span style=\"color: rgb(33, 33, 33); font-family: \" open=\"\" sauce=\"\" one\",=\"\" sans-serif;=\"\" font-size:=\"\" 14px;\"=\"\">Kalium(K) 15 %</span></li><li><span style=\"color: rgb(33, 33, 33); font-family: \" open=\"\" sauce=\"\" one\",=\"\" sans-serif;=\"\" font-size:=\"\" 14px;\"=\"\">Sulfur(S) 10 %</span></li></ul><p><span style=\"color: rgb(33, 33, 33); font-family: \" open=\"\" sauce=\"\" one\",=\"\" sans-serif;=\"\" font-size:=\"\" 14px;\"=\"\">Berbentuk butiran dengan warna putih<br></span><span style=\"color: rgb(33, 33, 33); font-family: \" open=\"\" sauce=\"\" one\",=\"\" sans-serif;=\"\" font-size:=\"\" 14px;\"=\"\">Mudah larut ketika terkena air.<br></span><span style=\"color: rgb(33, 33, 33); font-family: \" open=\"\" sauce=\"\" one\",=\"\" sans-serif;=\"\" font-size:=\"\" 14px;\"=\"\">Tanpa bahan kimia yg tdk membuat tanaman menjadi panas/gosong.</span></p><span style=\"color: rgb(33, 33, 33); font-family: \" open=\"\" sauce=\"\" one\",=\"\" sans-serif;=\"\" font-size:=\"\" 14px;\"=\"\">Pupuk phonska sangat mudah di gunakan dengan menaburkannya pd rumput serta pohon-pohon hias.</span><br style=\"box-sizing: inherit; color: rgb(33, 33, 33); font-family: \" open=\"\" sauce=\"\" one\",=\"\" sans-serif;=\"\" font-size:=\"\" 14px;\"=\"\"><span style=\"color: rgb(33, 33, 33); font-family: \" open=\"\" sauce=\"\" one\",=\"\" sans-serif;=\"\" font-size:=\"\" 14px;\"=\"\">Dalam 1 kg pupuk phonska mampu berdaya sebar, khususnya rumput 15 m2.</span><br style=\"box-sizing: inherit; color: rgb(33, 33, 33); font-family: \" open=\"\" sauce=\"\" one\",=\"\" sans-serif;=\"\" font-size:=\"\" 14px;\"=\"\"><span style=\"color: rgb(33, 33, 33); font-family: \" open=\"\" sauce=\"\" one\",=\"\" sans-serif;=\"\" font-size:=\"\" 14px;\"=\"\">Untuk tanaman taburkan di sisi pohonnya 10-15 gram,</span><br><p></p>', '<p><span style=\"color: rgb(33, 33, 33); font-family: \" open=\"\" sauce=\"\" one\",=\"\" sans-serif;=\"\" font-size:=\"\" 14px;\"=\"\"><b>Cara pemakaian :</b></span></p><ul><li><font color=\"#212121\">Taburkan pupuk ponska pd tanaman rumput.</font></li><li><span style=\"color: rgb(33, 33, 33); font-size: 1rem;\">Kemudian siram sampai larut butiran2 pupuk ponskanya.</span></li><li><font color=\"#212121\">Gunakan pupuk secukupnya.</font></li><li><span style=\"color: rgb(33, 33, 33); font-size: 1rem;\">2-3 hari sudah mulai perubahan warna daun rumputnya.</span></li></ul><p><span style=\"color: rgb(33, 33, 33); font-size: 1rem;\"><br></span></p><p><span style=\"color: rgb(33, 33, 33); font-family: \" open=\"\" sauce=\"\" one\",=\"\" sans-serif;=\"\" font-size:=\"\" 14px;\"=\"\"><b>Keunggulan :</b><br></span><span style=\"color: rgb(33, 33, 33); font-family: \" open=\"\" sauce=\"\" one\",=\"\" sans-serif;=\"\" font-size:=\"\" 14px;\"=\"\">Pupuk majemuk NPK yang diperkaya dengan unsur sulfur dan zinc.<br></span><span style=\"color: rgb(33, 33, 33); font-family: \" open=\"\" sauce=\"\" one\",=\"\" sans-serif;=\"\" font-size:=\"\" 14px;\"=\"\">Mampu meningkatkan efesiensi & efektifitas penggunaan pupuk.<br></span><span style=\"color: rgb(33, 33, 33); font-family: \" open=\"\" sauce=\"\" one\",=\"\" sans-serif;=\"\" font-size:=\"\" 14px;\"=\"\">Mampu meningkatkan jumlah & mutu hasil panen.<br></span><span style=\"color: rgb(33, 33, 33); font-family: \" open=\"\" sauce=\"\" one\",=\"\" sans-serif;=\"\" font-size:=\"\" 14px;\"=\"\">Hasil racikan bahan baku melalui proses produksi yang tepat sehingga menghasilkan kualitas campuran produk yang homogen.</span></p><p></p><br style=\"box-sizing: inherit; color: rgb(33, 33, 33); font-family: \" open=\"\" sauce=\"\" one\",=\"\" sans-serif;=\"\" font-size:=\"\" 14px;\"=\"\"><span style=\"color: rgb(33, 33, 33); font-family: \" open=\"\" sauce=\"\" one\",=\"\" sans-serif;=\"\" font-size:=\"\" 14px;\"=\"\">NPK Phonska Plus merupakan pupuk non-subsidi yang diperkaya dengan unsur hara mikro Zinc (Zn) yang membedakannya dengan pupuk NPK Phonska bersubsidi (tanpa Zinc). Penambahan Zinc penting, karena berdasarkan laporan International Fertilizer Association (IFA), kandungan Zinc pada lahan pertanian dunia menurun signifikan, termasuk di Indonesia.</span><br><p></p>');
 
 -- --------------------------------------------------------
 
@@ -188,7 +167,7 @@ CREATE TABLE `users` (
   `date_log` int(11) NOT NULL,
   `max_log` int(11) NOT NULL,
   `date_create` varchar(40) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `users`
@@ -196,7 +175,7 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id`, `name`, `telepon`, `email`, `image`, `password`, `role_id`, `is_active`, `date_log`, `max_log`, `date_create`) VALUES
 ('1', 'admin', '', 'admin@gmail.com', 'default.jpg', '$2y$10$R3qMtlWVC6FaYtUfhawl3uqX1Sh5IVPSSK1vsM2Ch4fQBij/z0PuW', 1, 1, 1686968216, 0, ''),
-('11', 'aries', '0822-6208-3187', 'test@gmail.com', 'default.jpg', '$2y$10$R3qMtlWVC6FaYtUfhawl3uqX1Sh5IVPSSK1vsM2Ch4fQBij/z0PuW', 2, 1, 1689753787, 0, '19 July 2023 || 08:46:48'),
+('kDsXiEgL8', 'Khoirul anam', '0808-0808-____', 'petani@gmail.com', 'default.jpg', '$2y$10$d.eVt.rBiIR54Kyp9AfGi.kuv.R9ZG1JQBvfpnRNt.DuEMbFoTEBi', 2, 1, 0, 0, '11 August 2023 || 21:42:13'),
 ('nwBnuaue0', 'Sandhika', '0822-6208-3187', 'user1@gmail.com', 'default.jpg', '$2y$10$9nUUmrwiW3rkSIyu6Zvo2eIOJSLtujmwGrBDD28eUwrWzMgYxXJki', 2, 1, 0, 0, '09 August 2023 || 12:37:28');
 
 -- --------------------------------------------------------
@@ -209,7 +188,7 @@ CREATE TABLE `user_access_menu` (
   `id` int(11) NOT NULL,
   `role_id` int(11) NOT NULL,
   `menu_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `user_access_menu`
@@ -229,7 +208,7 @@ INSERT INTO `user_access_menu` (`id`, `role_id`, `menu_id`) VALUES
 CREATE TABLE `user_menu` (
   `id` int(11) NOT NULL,
   `menu` varchar(128) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `user_menu`
@@ -249,7 +228,7 @@ INSERT INTO `user_menu` (`id`, `menu`) VALUES
 CREATE TABLE `user_role` (
   `id` int(11) NOT NULL,
   `role` varchar(30) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `user_role`
@@ -273,7 +252,7 @@ CREATE TABLE `user_sub_menu` (
   `url` varchar(128) NOT NULL,
   `icon` varchar(128) NOT NULL,
   `is_active` int(1) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `user_sub_menu`
@@ -309,7 +288,7 @@ CREATE TABLE `user_token` (
   `email` varchar(128) NOT NULL,
   `token` varchar(128) NOT NULL,
   `date_created` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `user_token`
@@ -417,7 +396,7 @@ ALTER TABLE `tbl_bank`
 -- AUTO_INCREMENT for table `tbl_keranjang`
 --
 ALTER TABLE `tbl_keranjang`
-  MODIFY `id_cart` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
+  MODIFY `id_cart` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=59;
 
 --
 -- AUTO_INCREMENT for table `tbl_pengaturan_umum`

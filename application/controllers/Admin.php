@@ -612,6 +612,13 @@ class Admin extends CI_Controller
             redirect('admin/pembayaran');
         }
     }
+    public function reportPenjualan()
+    {
+        $data['pengaturan'] = $this->db->get('tbl_pengaturan_umum')->result_array();
+        $data['user'] = $this->db->get_where('users', ['email' => $this->session->userdata('email')])->row_array();
+        $data['range'] = $this->input->post('report');
+        $this->load->view('admin/reportPenjualan', $data);
+    }
 
     public function bank()
     {

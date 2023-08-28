@@ -202,7 +202,9 @@ class Pelanggan extends CI_Controller
             $this->db->insert('tbl_pembayaran', $databayar);
             $cart = [
                 'status_keranjang' => 0,
-                'id_pembayaran' => $randomString
+                'id_pembayaran' => $randomString,
+                'tanggal_bayar' => date('Y-m-d'),
+                'jam_bayar' => date('H:i:s'),
             ];
             foreach ($datacart as $ct) {
                 $this->db->where('id_cart', $ct['id_cart']);
