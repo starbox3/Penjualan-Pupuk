@@ -19,7 +19,7 @@ class Pelanggan extends CI_Controller
         $data['pengaturan'] = $this->db->get('tbl_pengaturan_umum')->result_array();
         $data['pupuk'] = $this->db->get('tbl_pupuk')->result_array();
         $data['title'] = 'Home';
-        $user = $data['user']['id'];
+        $user = $data['user']['id_user'];
         $this->load->model('Pelanggan_model');
         $data['cart'] = $this->Pelanggan_model->cart($user);
         $data['totalcart'] = $this->Pelanggan_model->totalcart($user);
@@ -33,8 +33,8 @@ class Pelanggan extends CI_Controller
         $data['pengaturan'] = $this->db->get('tbl_pengaturan_umum')->result_array();
         $detail = $this->input->get('pupuk');
         $data['title'] = 'null';
-        $data['pupuk'] = $this->db->get_where('tbl_pupuk', ['id' => $detail])->row_array();
-        $user = $data['user']['id'];
+        $data['pupuk'] = $this->db->get_where('tbl_pupuk', ['id_pupuk' => $detail])->row_array();
+        $user = $data['user']['id_user'];
         $this->load->model('Pelanggan_model');
         $data['cart'] = $this->Pelanggan_model->cart($user);
         $data['totalcart'] = $this->Pelanggan_model->totalcart($user);
@@ -48,14 +48,14 @@ class Pelanggan extends CI_Controller
     {
         $data['user'] = $this->db->get_where('users', ['email' => $this->session->userdata('email')])->row_array();
         $data['pengaturan'] = $this->db->get('tbl_pengaturan_umum')->result_array();
-        $user = $data['user']['id'];
+        $user = $data['user']['id_user'];
         $this->load->model('Pelanggan_model');
         $detail = $this->input->get('pupuk');
         $cart = $this->Pelanggan_model->sama($user, $detail);
         $data['tani'] = $this->Pelanggan_model->datapetani($user);
 
         $id = $this->db->get_where('tbl_keranjang', ['id_user' => $user, 'id_pupuk' => $detail, 'status_keranjang' => 1])->row_array();
-        $data['pupuk'] = $this->db->get_where('tbl_pupuk', ['id' => $detail])->row_array();
+        $data['pupuk'] = $this->db->get_where('tbl_pupuk', ['id_pupuk' => $detail])->row_array();
         $data['max'] = $data['tani']['luas_lahan'] / 0.125;
         // var_dump(round($up));
         // die;
@@ -65,7 +65,7 @@ class Pelanggan extends CI_Controller
             $this->db->delete('tbl_keranjang');
             if ($jumlah <= round($data['max'])) {
                 $cart = [
-                    'id_user' => $data['user']['id'],
+                    'id_user' => $data['user']['id_user'],
                     'id_pupuk' => $this->input->get('pupuk'),
                     'jumlah' => $jumlah,
                     'total_harga' => $data['pupuk']['harga'] * $jumlah,
@@ -80,7 +80,7 @@ class Pelanggan extends CI_Controller
         } else {
             if ($jumlah <= round($data['max'])) {
                 $cart = [
-                    'id_user' => $data['user']['id'],
+                    'id_user' => $data['user']['id_user'],
                     'id_pupuk' => $this->input->get('pupuk'),
                     'jumlah' => $jumlah,
                     'total_harga' => $data['pupuk']['harga'] * $jumlah,
@@ -104,7 +104,7 @@ class Pelanggan extends CI_Controller
     {
         $data['user'] = $this->db->get_where('users', ['email' => $this->session->userdata('email')])->row_array();
         $data['pengaturan'] = $this->db->get('tbl_pengaturan_umum')->result_array();
-        $user = $data['user']['id'];
+        $user = $data['user']['id_user'];
         $this->load->model('Pelanggan_model');
         $data['title'] = 'null';
         $data['cart'] = $this->Pelanggan_model->cart($user);
@@ -118,7 +118,7 @@ class Pelanggan extends CI_Controller
     {
         $data['user'] = $this->db->get_where('users', ['email' => $this->session->userdata('email')])->row_array();
         $data['pengaturan'] = $this->db->get('tbl_pengaturan_umum')->result_array();
-        $user = $data['user']['id'];
+        $user = $data['user']['id_user'];
         $data['title'] = 'null';
         $this->load->model('Pelanggan_model');
         $data['totalcart'] = $this->Pelanggan_model->totalcart($user);
@@ -131,7 +131,7 @@ class Pelanggan extends CI_Controller
     {
         $data['user'] = $this->db->get_where('users', ['email' => $this->session->userdata('email')])->row_array();
         $data['pengaturan'] = $this->db->get('tbl_pengaturan_umum')->result_array();
-        $user = $data['user']['id'];
+        $user = $data['user']['id_user'];
         $data['title'] = 'null';
         $this->load->model('Pelanggan_model');
         $data['totalcart'] = $this->Pelanggan_model->totalcart($user);
@@ -148,7 +148,7 @@ class Pelanggan extends CI_Controller
     {
         $data['user'] = $this->db->get_where('users', ['email' => $this->session->userdata('email')])->row_array();
         $data['pengaturan'] = $this->db->get('tbl_pengaturan_umum')->result_array();
-        $user = $data['user']['id'];
+        $user = $data['user']['id_user'];
         $data['title'] = 'null';
         $this->load->model('Pelanggan_model');
         $data['totalcart'] = $this->Pelanggan_model->totalcart($user);
@@ -160,7 +160,7 @@ class Pelanggan extends CI_Controller
     public function upload()
     {
         $data['user'] = $this->db->get_where('users', ['email' => $this->session->userdata('email')])->row_array();
-        $user = $data['user']['id'];
+        $user = $data['user']['id_user'];
         $bank = $this->input->get('bank');
         $namabank = $this->db->get_where('tbl_bank', ['id_bank' => $bank])->row_array();
         $this->load->model('Pelanggan_model');
@@ -175,10 +175,10 @@ class Pelanggan extends CI_Controller
             $randomString .= $characters[random_int(0, $charactersLength - 1)];
         }
         $databayar = [
-            'nama_bank' => $namabank['nama_bank'],
+            'id_pembayaran' => $randomString,
+            'id_bank' => $namabank['id_bank'],
             'nominal' => $data['totalbayar']['total_bayar'],
             'tanggal_pembayaran' => date('Y-m-d H:i:s'),
-            'id_pembayaran' => $randomString,
             'id_user' => $user
 
         ];
@@ -202,13 +202,18 @@ class Pelanggan extends CI_Controller
             $this->db->insert('tbl_pembayaran', $databayar);
             $cart = [
                 'status_keranjang' => 0,
-                'id_pembayaran' => $randomString,
                 'tanggal_bayar' => date('Y-m-d'),
                 'jam_bayar' => date('H:i:s'),
             ];
             foreach ($datacart as $ct) {
                 $this->db->where('id_cart', $ct['id_cart']);
                 $this->db->update('tbl_keranjang', $cart);
+                $data1 = [
+                    'id_pembayaran' => $randomString,
+                    'id_cart' => $ct['id_cart'],
+                    'id_user' => $user
+                ];
+                $this->db->insert('tbl_transaksi', $data1);
             }
         }
         redirect('pelanggan/riwayatpembelian');
@@ -217,7 +222,7 @@ class Pelanggan extends CI_Controller
     {
         $data['user'] = $this->db->get_where('users', ['email' => $this->session->userdata('email')])->row_array();
         $data['pengaturan'] = $this->db->get('tbl_pengaturan_umum')->result_array();
-        $user = $data['user']['id'];
+        $user = $data['user']['id_user'];
         $this->load->model('Pelanggan_model');
         $data['title'] = 'Riwayat';
         $data['cart'] = $this->Pelanggan_model->cart($user);

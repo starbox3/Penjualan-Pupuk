@@ -341,7 +341,7 @@ class Admin extends CI_Controller
         } else {
 
             $id = $this->input->post('id');
-            $idusers = $this->db->get_where('users', ['id' => $id])->row_array();
+            $idusers = $this->db->get_where('users', ['id_user' => $id])->row_array();
             $name = $this->input->post('name');
             $email = $this->input->post('email');
             if ($this->input->post('password') == null) {
@@ -376,7 +376,7 @@ class Admin extends CI_Controller
             $this->db->set('email', $email);
             $this->db->set('password', $password);
             $this->db->set('role_id', $role_id);
-            $this->db->where('id', $id);
+            $this->db->where('id_user', $id);
             $this->db->update('users');
             $this->session->set_flashdata('messageEdit', $this->messageEdit());
             redirect('admin/user');
@@ -508,7 +508,7 @@ class Admin extends CI_Controller
         $data['user'] = $this->db->get_where('users', ['email' => $this->session->userdata('email')])->row_array();
         $data['title'] = 'Pupuk';
         $id = $this->input->get('pupuk');
-        $data['pupuk'] = $this->db->get_where('tbl_pupuk', ['id' => $id])->row_array();
+        $data['pupuk'] = $this->db->get_where('tbl_pupuk', ['id_pupuk' => $id])->row_array();
         // var_dump($data['pupuk']);
         // die;
         $this->load->view('templates/header', $data);
@@ -546,7 +546,7 @@ class Admin extends CI_Controller
                 echo $this->upload->display_errors();
             }
         }
-        $this->db->where('id', $id);
+        $this->db->where('id_pupuk', $id);
         $this->db->update('tbl_pupuk', $data);
         $this->session->set_flashdata('messageAdd', $this->messageAdd());
         redirect('admin/pupuk');
@@ -574,8 +574,8 @@ class Admin extends CI_Controller
         $user = $this->input->get('user');
         $this->load->model('Admin_model');
         $data['chart_pembayaran'] = $this->Admin_model->detailpembayaran($id);
-        $data['id_user'] = $this->db->get_where('users', ['id' => $user])->row_array();
-        $data['pembayaran'] = $this->db->get_where('tbl_pembayaran', ['id_pembayaran' => $id])->row_array();
+        $data['id_user'] = $this->db->get_where('users', ['id_user' => $user])->row_array();
+        $data['pembayaran'] = $this->Admin_model->metodePembayaran($id);
         // var_dump($data['chart_pembayaran']);
         // die;
         $this->load->view('templates/header', $data);
@@ -605,7 +605,7 @@ class Admin extends CI_Controller
                 $pupuk = [
                     'stok' => $data['stok'] - $data['jumlah']
                 ];
-                $this->db->where('id', $data['id_pupuk']);
+                $this->db->where('id_pupuk', $data['id_pupuk']);
                 $this->db->update('tbl_pupuk', $pupuk);
             }
             $this->session->set_flashdata('messageAdd', $this->messageAdd());
@@ -754,6 +754,7 @@ class Admin extends CI_Controller
         $this->load->model('Admin_model', 'menu');
         $data['subMenu'] = $this->menu->getSubMenu();
         $data['akun'] = $this->db->get('users')->result_array();
+        // $data['dataTani'] = $this->Admin_model->datapetani();
         $this->load->view('templates/header', $data);
         $this->load->view('templates/navbar', $data);
         $this->load->view('templates/sidebar', $data);
@@ -769,19 +770,8 @@ class Admin extends CI_Controller
         for ($i = 0; $i < $length; $i++) {
             $randomString .= $characters[random_int(0, $charactersLength - 1)];
         }
-        $data = [
-            'id_data_petani' =>  $randomString,
-            'nik_petani' => $this->input->post('nik'),
-            'nama_petani' => $this->input->post('nama'),
-            'provinsi' => $this->input->post('provinsi'),
-            'kabupaten' => $this->input->post('kabupaten'),
-            'alamat' => $this->input->post('alamat'),
-            'kk_petani' => $this->input->post('kk'),
-            'luas_lahan' => $this->input->post('luas'),
-
-        ];
         $user = [
-            'id' => $randomString,
+            'id_user' => $randomString,
             'name' => $this->input->post('nama'),
             'telepon' => $this->input->post('telepon'),
             'email' => $this->input->post('email'),
@@ -793,6 +783,18 @@ class Admin extends CI_Controller
             'role_id' => 2,
             'is_active' => 1,
             'date_create' => date('d F Y || H:i:s')
+
+        ];
+        $this->db->insert('users', $user);
+        $data = [
+            'id_user' =>  $randomString,
+            'nik_petani' => $this->input->post('nik'),
+            'nama_petani' => $this->input->post('nama'),
+            'provinsi' => $this->input->post('provinsi'),
+            'kabupaten' => $this->input->post('kabupaten'),
+            'alamat' => $this->input->post('alamat'),
+            'kk_petani' => $this->input->post('kk'),
+            'luas_lahan' => $this->input->post('luas'),
 
         ];
         $upload_favicon = $_FILES['file1']['name'];
@@ -830,7 +832,6 @@ class Admin extends CI_Controller
             }
         }
         $this->db->insert('tbl_data_petani', $data);
-        $this->db->insert('users', $user);
         $this->session->set_flashdata('messageAdd', $this->messageAdd());
         redirect('admin/dataTani');
     }
@@ -906,7 +907,7 @@ class Admin extends CI_Controller
                 echo $this->upload->display_errors();
             }
         }
-        $this->db->where('id_data_petani', $id);
+        $this->db->where('id_user', $id);
         $this->db->update('tbl_data_petani', $data);
 
         if ($user['passsword'] == null) {
@@ -916,10 +917,10 @@ class Admin extends CI_Controller
                 'email' => $this->input->post('email'),
                 'password' => $tani['password'],
             ];
-            $this->db->where('id', $id);
+            $this->db->where('id_user', $id);
             $this->db->update('users', $update);
         } else {
-            $this->db->where('id', $id);
+            $this->db->where('id_user', $id);
             $this->db->update('users', $user);
         }
         $this->session->set_flashdata('messageEdit', $this->messageEdit());

@@ -6,7 +6,7 @@
                     <div class="card-header">
                         <h3 class="card-title">Edit Data Pupuk</h3>
                     </div>
-                    <?= form_open_multipart('admin/editDataPupuk?pupuk=' . $pupuk['id']); ?>
+                    <?= form_open_multipart('admin/editDataPupuk?pupuk=' . $pupuk['id_pupuk']); ?>
                     <div class="modal-body">
                         <div class="row">
                             <div class="col-sm-4">

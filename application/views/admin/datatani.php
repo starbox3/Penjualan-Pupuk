@@ -8,7 +8,9 @@
         <div class="card card-info card-outline">
             <div class="card-body">
                 <?php
-                $query = "SELECT * FROM `tbl_data_petani` ORDER BY `id_data_petani` DESC";
+                $query = "SELECT `tbl_data_petani`.*,`users`.`telepon`,`email`
+                FROM `tbl_data_petani` JOIN `users`
+                ON `tbl_data_petani`.`id_user`=`users`.`id_user` ORDER BY `nama_petani` DESC";
                 $datapetani = $this->db->query($query)->result_array();
                 ?>
                 <form action="<?= base_url('admin/deleteAllpetani') ?>" method="POST">
@@ -34,15 +36,15 @@
                         <tbody>
                             <?php foreach ($datapetani as $data) : ?>
                                 <tr>
-                                    <td class=" py-1 align-middle text-center"><input type="checkbox" name="check_value[]" class="idName" value="<?= $data['id_data_petani']; ?>"></td>
+                                    <td class=" py-1 align-middle text-center"><input type="checkbox" name="check_value[]" class="idName" value="<?= $data['id_user']; ?>"></td>
                                     <td class=" py-1 align-middle"><?= $data['nama_petani']; ?></td>
                                     <td class=" py-1 align-middle"><?= $data['provinsi']; ?></td>
                                     <td class=" py-1 align-middle"><?= $data['kabupaten']; ?></td>
                                     <td class=" py-1 align-middle"><?= $data['luas_lahan']; ?></td>
                                     <td class="text-center py-1 align-middle">
                                         <div class="btn-group btn-group-sm">
-                                            <a href="<?= site_url('admin/detailPetani?data=' . $data['id_data_petani']) ?>" class="btn btn-success btn-sm"><i class="fas fa-eye"></i></a>
-                                            <a href="<?= site_url('admin/editpetani?data=' . $data['id_data_petani']) ?>" class="btn btn-info btn-sm"><i class="fas fa-edit"></i></a>
+                                            <a href="<?= site_url('admin/detailPetani?data=' . $data['id_user']) ?>" class="btn btn-success btn-sm"><i class="fas fa-eye"></i></a>
+                                            <a href="<?= site_url('admin/editpetani?data=' . $data['id_user']) ?>" class="btn btn-info btn-sm"><i class="fas fa-edit"></i></a>
                                         </div>
                                     </td>
                                 </tr>

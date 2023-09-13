@@ -6,7 +6,7 @@
                     <div class="card-header">
                         <h3 class="card-title">Edit Data Petani</h3>
                     </div>
-                    <?= form_open_multipart('admin/updatepetani?data=' . $tani['id_data_petani']); ?>
+                    <?= form_open_multipart('admin/updatepetani?data=' . $tani['id_user']); ?>
                     <div class="modal-body">
                         <div class="row">
                             <div class="col-sm-4">

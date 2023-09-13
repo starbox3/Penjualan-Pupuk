@@ -100,26 +100,30 @@ $split1 = explode('-', $awal);
 $split2 = explode('-', $akhir);
 $tglAwal = $split1[2] . ' ' . $bulan[(int)$split1[1]] . ' ' . $split1[0];
 $tglAkhir = $split2[2] . ' ' . $bulan[(int)$split2[1]] . ' ' . $split2[0];
-$query = "SELECT `tbl_keranjang`.*,`tbl_pembayaran`.*,`users`.`name`,`tbl_pupuk`.`nama`
+$query = "SELECT `tbl_keranjang`.*,`tbl_transaksi`.*,`users`.`name`,`tbl_pupuk`.`nama`,`tbl_pembayaran`.*
 FROM `tbl_keranjang` 
+INNER JOIN `tbl_transaksi`
+ON `tbl_keranjang`.`id_cart`=`tbl_transaksi`.`id_cart`
 INNER JOIN `tbl_pembayaran`
-ON `tbl_keranjang`.`id_pembayaran`=`tbl_pembayaran`.`id_pembayaran`
+ON `tbl_transaksi`.`id_pembayaran`=`tbl_pembayaran`.`id_pembayaran`
 INNER JOIN `users`
-ON `tbl_pembayaran`.`id_user`=`users`.`id`
+ON `tbl_pembayaran`.`id_user`=`users`.`id_user`
 INNER JOIN `tbl_pupuk`
-ON `tbl_keranjang`.`id_pupuk`=`tbl_pupuk`.`id`
+ON `tbl_keranjang`.`id_pupuk`=`tbl_pupuk`.`id_pupuk`
 WHERE `tbl_pembayaran`.`status_pembayaran`=1
 AND `tbl_keranjang`.`tanggal_bayar` >= '$awal' AND `tbl_keranjang`.`tanggal_bayar` <= '$akhir'";
 $dataLaporan = $this->db->query($query)->result_array();
 
 $query1 = "SELECT SUM(total_harga) AS `total` , SUM(jumlah) AS `jumlah`
 FROM `tbl_keranjang` 
+INNER JOIN `tbl_transaksi`
+ON `tbl_keranjang`.`id_cart`=`tbl_transaksi`.`id_cart`
 INNER JOIN `tbl_pembayaran`
-ON `tbl_keranjang`.`id_pembayaran`=`tbl_pembayaran`.`id_pembayaran`
+ON `tbl_transaksi`.`id_pembayaran`=`tbl_pembayaran`.`id_pembayaran`
 INNER JOIN `users`
-ON `tbl_pembayaran`.`id_user`=`users`.`id`
+ON `tbl_pembayaran`.`id_user`=`users`.`id_user`
 INNER JOIN `tbl_pupuk`
-ON `tbl_keranjang`.`id_pupuk`=`tbl_pupuk`.`id`
+ON `tbl_keranjang`.`id_pupuk`=`tbl_pupuk`.`id_pupuk`
 WHERE `tbl_pembayaran`.`status_pembayaran`=1
 AND `tbl_keranjang`.`tanggal_bayar` >= '$awal' AND `tbl_keranjang`.`tanggal_bayar` <= '$akhir'";
 $totalHarga = $this->db->query($query1)->row_array();

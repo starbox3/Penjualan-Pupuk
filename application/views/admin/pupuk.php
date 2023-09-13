@@ -26,7 +26,7 @@
                         <tbody>
                             <?php foreach ($pupuk as $data) : ?>
                                 <tr>
-                                    <td class=" py-1 align-middle text-center"><input type="checkbox" name="check_value[]" class="idName" value="<?= $data['id']; ?>"></td>
+                                    <td class=" py-1 align-middle text-center"><input type="checkbox" name="check_value[]" class="idName" value="<?= $data['id_pupuk']; ?>"></td>
                                     <td class=" py-9 align-middle"><?= $data['nama']; ?></td>
                                     <td class=" py-1 align-middle"><?= $data['jenis']; ?></td>
                                     <td class=" py-1 align-middle text-center"><img width="100px" height="100px" src="<?= base_url('assets/template/dist/img/pupuk/' . $data['gambar']) ?>" alt="pupuk"></td>
@@ -37,7 +37,7 @@
                                     <td class="py-1 align-middle text-center"><?= $harga; ?></td>
                                     <td class="text-center py-1 align-middle">
                                         <div class="btn-group btn-group-sm">
-                                            <a href="<?= site_url('admin/editPupuk?pupuk=' . $data['id']) ?>" class="btn btn-info btn-sm"><i class="fas fa-edit"></i></a>
+                                            <a href="<?= site_url('admin/editPupuk?pupuk=' . $data['id_pupuk']) ?>" class="btn btn-info btn-sm"><i class="fas fa-edit"></i></a>
                                         </div>
                                     </td>
                                 </tr>

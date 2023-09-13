@@ -17,7 +17,7 @@
                     <div class="product__details__price"><?= $harga ?></div>
                     <p><?= $pupuk['keterangan'] ?></p>
 
-                    <form action="<?= base_url('pelanggan/addcart?pupuk=' . $pupuk['id']) ?>" method="POST">
+                    <form action="<?= base_url('pelanggan/addcart?pupuk=' . $pupuk['id_pupuk']) ?>" method="POST">
                         <h6 class="mb-1" style="color:red;">*Maksimum anda dapat membeli <?= $max; ?> karung pupuk</h6>
                         <div class="product__details__quantity">
                             <div class="quantity">

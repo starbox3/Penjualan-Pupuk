@@ -39,7 +39,7 @@
                 <div class="col-lg-3 col-md-4 col-sm-6 mix <?= $data['jenis']; ?>">
                     <div class="featured__item">
                         <div class="categories__item set-bg" data-setbg="<?= base_url('assets/template/dist/img/pupuk/' . $data['gambar']) ?>">
-                            <h5><a href="<?= base_url('pelanggan/detail?pupuk=') . $data['id'] ?>">Cek Detail</a></h5>
+                            <h5><a href="<?= base_url('pelanggan/detail?pupuk=') . $data['id_pupuk'] ?>">Cek Detail</a></h5>
                         </div>
                         <div class="featured__item__text">
                             <h6><?= $data['nama']; ?></h6>
